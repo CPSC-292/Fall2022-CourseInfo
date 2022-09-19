@@ -24,6 +24,7 @@
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+*.html
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
@@ -38,3 +39,22 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+#keynote files
+*.key
+
+# Annoying LaTeX temp files
+*.out
+*.aux
+*.log
+*.synctex.gz
+*.tex
+
+# Assignment keys
+*key.R
+*key.Rmd
+*key.pdf
+
+# Lecture videos
+*.mov
+*.mp4
