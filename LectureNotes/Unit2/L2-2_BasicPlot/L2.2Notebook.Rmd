@@ -1,0 +1,239 @@
+---
+title: "Lecture 2.2 Notebook"
+author: Lindsay Waldrop
+date: 9/28/2022
+output: html_notebook
+---
+
+## Formatting Markdown Text 
+
+Formatting Markdown text is easy! Just a few rules to learn: 
+
+ * `*italics*`: two asterisks on either side of a word will turn it italics. *italics*
+ * `__bold__`: two underscores on either side of a word will turn it bold. __bold__
+ * `Superscripts^2^`: use two carrots on either side of a word or number to make it a superscript. Superscripts^2^
+ * `Subscripts~2~`: use two tildes on either side of a word or number to make it a subscript. Subscripts~2~
+ * `~~strikethrough~~`: use two tildes to make text strikethrough. ~~strikethrough~~
+ * Use two hard returns for a new paragraph. 
+ * `[R Markdown](https://rmarkdown.rstudio.com)` will create a link to an external website: [R Markdown](https://rmarkdown.rstudio.com)
+ * `![Alt text](path/to/image.png)`: will embed an image into the document with alternative text. 
+ 
+If you'd like to make an unordered list, use asterisks with a space: 
+
+ * item
+ * item
+ * item 
+ 
+If you'd like an ordered list, do the same thing with numbers: 
+
+ 1. item 1
+ 2. item 2
+ 3. item 3
+
+Be sure there is a full line gap between the start of your list and the previous line! 
+
+Headers are also pretty easy, they go down from large to small with a single hash: 
+
+# Biggest header
+
+## Smaller header
+
+### Even smaller header 
+
+#### Smallest header
+
+For more tips, use this handy [Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)!
+
+## Code-chunk options
+
+Inserting code must take place using three open-apostrophes in a row (the open apostrophe is to the left of the number 1 key, right under the tilde). To end the code chunk, use three more open-apostrophes. 
+Begin a code chunk: ` ```{r}`
+End a code chunk: ` ``` `
+
+Example: 
+```{r}
+# This is a code chunk. Put your R code here.
+plot(cars)
+```
+
+You'll notice that the R code chunk in the markdown editor has a light gray background. If you don't see this, then it's not reading it correctly as a chunk!
+
+Within the curly brackets, you can specify a bunch of options for how you'd like Markdown to handle the code. 
+
+`{r, include=FALSE}` will suppress the output of the code: 
+ 
+Example with output:
+```{r, include=TRUE}
+a <- 10
+print(a)
+```
+ 
+Example with no output: 
+```{r, include=FALSE}
+a <- 10
+print(a)
+```
+(Note that the code has been run, but there is nothing in the document!)
+
+`{r, echo=FALSE}` will suppress the code, but not the output:
+
+Example with suppressed code: 
+```{r, echo=FALSE}
+a <- 10
+print(a)
+```
+
+If you would like to make a plot but not have the code show up, the best option is `echo=FALSE`:
+
+```{r eval=FALSE, warning=FALSE, include=FALSE}
+plot(cars)
+```
+
+You can specify more options for your code chunks, just add each to the curly braces separated by commas: 
+
+ * `warning=FALSE` will suppress warning messages
+ * `error=FALSE` will suppress error messages
+ * `message=FALSE` will suppress all messages
+ * `eval=FALSE` will show the code but will NOT run the chunk.
+ 
+Note that assigning `TRUE` to any of these will produce the opposite behavior. 
+ 
+
+## Basic plotting 
+
+Basic plot: 
+
+```{r,include=TRUE}
+x.values <- c(3, 2, 5, 1, 3)
+y.values <- c(1, 3, 4, 1, 2)
+
+plot(x = x.values, y = y.values)
+```
+
+Using plot with a data frame: 
+
+```{r,include=TRUE}
+x.values <- c(3, 2, 5, 1, 3)
+y.values <- c(1, 3, 4, 1, 2)
+
+df <- data.frame(x = x.values, y = y.values)
+
+plot(y ~ x, data = df)
+```
+
+Title and axis labels: 
+
+```{r, include=TRUE}
+data("cars")
+
+plot(dist ~ speed, data = cars, 
+     xlab = "Car speed",
+     ylab  = "Stopping distance", 
+     main = "Plot of speed versus stopping distance")
+```
+
+Axis limits: 
+
+```{r, include=TRUE}
+plot(dist ~ speed, data = cars,
+     xlab = "Car speed",
+     ylab  = "Stopping distance",
+     main = "Plot of speed versus stopping distance",
+     xlim = c(-5, 30), ylim = c(-50, 150))
+```
+
+#### Check Your Understanding
+
+Make a plot of vapor pressure in mmHg versus temperature in C of mercury using the `pressure` data set. Set the axis labels and title. Make the same plot again using a different method (either with or without a formula).
+
+```{r}
+# Put your code here! 
+
+
+```
+
+
+### Formatting plot attributes
+
+Plot style
+
+```{r, include=TRUE}
+plot(dist ~ speed, data = cars,
+     type = "l", col = "red")
+```
+Options for type are `l` for line, `p` for points, or `b` for both. 
+
+Amend plot with colors based on factors: 
+```{r, include=TRUE}
+# Load data set iris
+data("iris")
+
+# Establish color for each species (three total)
+iriscolors <- c("red", "blue", "black")
+# Plotting with colors
+plot(Petal.Length ~ Petal.Width, data = iris, # Setting up basic plot
+     type = "p", pch = 19, # setting point type (type) and point shape (pch)
+     col = iriscolors[iris$Species]) # Establish colors that correspond to species
+```
+
+
+#### Check Your Understanding
+
+Make a plot of circumference versus age of the orange trees in the data set Orange. Give each tree a unique color and point shape. 
+
+```{r}
+# Put your code here! 
+
+
+```
+
+
+Add to existing plots: 
+
+```{r, include=TRUE}
+data("ChickWeight")
+
+chicks.diet1 <- subset(ChickWeight, ChickWeight$Diet == 1)
+plot(x = chicks.diet1$Time, y = chicks.diet1$weight, 
+     col = "red", pch = 19)
+
+chicks.diet2 <- subset(ChickWeight, ChickWeight$Diet == 2)
+points(x = chicks.diet2$Time, y = chicks.diet2$weight, 
+ col = "blue", pch = 8)
+
+# NOTE: the chicks.diet2 is cut off at the top of the plot. In order to fix this, 
+# you need to alter the original plot() command with xlim and ylim. Try adding 
+#   ylim = range(ChickWeight$Weight)
+```
+
+Adding lines and other stuff:
+```{r, include=TRUE}
+x.values <- seq(1, 10, by = 0.1)
+y.values <- runif(length(x.values))
+df2 <- data.frame(x = x.values, y = y.values)
+
+plot(y ~ x, data = df2, type = "l")
+points(x = df2$x, y = df2$y, pch = 10, col = "blue")
+lines(x = c(-1, 11), y = c(0.65, 0.65), lty = 2)
+lines(x = c(-1, 11), y = c(0.35, 0.35), lty = 3)
+```
+
+Adding a legend to the iris plot: 
+```{r, include=TRUE}
+iriscolors <- c("red", "blue", "black")
+plot(Petal.Length ~ Petal.Width, data = iris,
+     type = "p", pch = 19, col = iriscolors[iris$Species])
+
+legend("topleft", legend = levels(iris$Species), 
+       col = iriscolors, pch = rep(19, 3))
+```
+
+#### Check Your Understanding
+
+Add a legend to your graph of Orange trees. 
+
+```{r}
+# Put your code here! 
+
+
+```
