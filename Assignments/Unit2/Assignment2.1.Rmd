@@ -1,0 +1,39 @@
+---
+title: "Assignment 2.1"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your name"
+date: "00/00/2022"
+output: html_notebook
+---
+
+## Assignment 2.1 
+
+```{r, include=TRUE}
+# Loading required libraries
+
+```
+
+### Question 1
+
+*Load the pressure data set. Make a plot of vapor pressure in mmHg versus temperature in C of mercury. Set the axis labels and title. Make the same plot using a different method (either with or without a formula).*
+
+Plot without a formula: 
+```{r, include=TRUE}
+
+
+```
+
+Plot with a formula: 
+```{r, include=TRUE}
+
+
+```
+
+
+### Question 2
+
+*Load the dataset Loblolly. Make a plot of height versus age of trees where data are triangle-shaped points. Color the points according to the seed number.*
+
+```{r, include=TRUE}
+
+```

@@ -1,0 +1,54 @@
+---
+title: "Assignment whatever "
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "00/00/2022"
+output: html_notebook
+---
+
+## Assignment whatever
+
+```{r setup, include=TRUE}
+# Loading required libraries
+library(viridis)
+```
+
+### Question 1
+
+*Text of question 1 *
+
+Answer any questions that require text in the white space. And it's also useful to explain what your code is doing up here. Include any R code in chunks like below. (Note: this is not correct for this)
+```{r, include=TRUE}
+data("CO2")
+class(CO2$Treatment)
+nlevels(CO2$Treatment)
+treat.colors <- viridis(nlevels(CO2$Treatment)) # viridis() is part of the viridis package
+```
+
+Construct plot:
+```{r, include=TRUE}
+points.shapes <- c(17,19)
+plot(uptake ~ conc, data = CO2, 
+     xlab = "Concentration of CO2 in air",
+     ylab = "Uptake of CO2 by plant",
+     pch = points.shapes[CO2$Type],
+     col = treat.colors[CO2$Treatment])
+legend("topleft", ncol = 2,#inset=c(-0.1,0), 
+       legend = c("Quebec, nonchilled", "Quebec, chilled", 
+                  "Mississippi, chilled", "Mississippi, chilled"), 
+       col = rep(treat.colors,2), 
+       pch = rep(points.shapes,each=2))
+```
+
+## Question 2
+
+*text of question 2*
+
+Your answer here. 
+
+```{r, include=TRUE}
+# More code!
+
+```
+
+
