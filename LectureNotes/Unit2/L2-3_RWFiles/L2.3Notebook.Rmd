@@ -1,0 +1,163 @@
+---
+title: "Lecture 2.3 Notebook"
+author: Lindsay Waldrop
+date: 9/30/2022
+output: html_notebook
+---
+
+```{r setup, include=FALSE, warning=FALSE, echo=FALSE}
+# Loading required libraries
+# Be sure to install these before running this file!!
+library(tidyr)
+library(janitor)
+library(readxl)
+```
+
+## Importing Data 
+
+#### Example: Clean text file
+
+Let's start by importing a data file into R, `bluecrab.csv`. You'll need to unzip the data.zip folder that comes along with today's lecture notes. It should produce a `data/` folder that contains `bluecrab.csv`.  I've also included a `View()` command so we can look at the data after it's loaded.
+
+```{r,include=TRUE}
+bluecrab.data <- read.csv("data/bluecrab.csv")
+bluecrab.data
+```
+
+This imports the object `bluecrab.data` as a data frame with 72 observations (rows) and 7 variables (columns). 
+
+
+#### Example: Not-so-perfect text file
+
+Here is an example file where things aren't so clean when used with the default `read.csv()` settinigs. 
+
+```{r, include=TRUE}
+babycrab.data <- read.csv("data/babycrab1.csv")
+babycrab.data
+```
+This doesn't seem right. And the data aren't being read in as numbers either: 
+```{r,include=TRUE}
+class(babycrab.data[3,2])
+```
+
+Skipping the first line improves the situation:
+```{r,include=TRUE}
+babycrab.data <- read.csv("data/babycrab1.csv", skip = 1)
+babycrab.data
+```
+Now most of the columns with numerical data are being coded as numeric: 
+```{r,include=TRUE}
+class(babycrab.data[3,2])
+```
+
+Other improvements: here is where `stringsAsFactors` might be good to set at `TRUE` because the fourth column (`sex`) has only two options (m and f) and it is the only column with character values.
+```{r,include=TRUE}
+babycrab.data <- read.csv("data/babycrab1.csv", 
+                          skip = 1, stringsAsFactors = TRUE,
+                          blank.lines.skip = TRUE)
+babycrab.data
+```
+
+#### Read Excel File
+
+Using the `readxl` package. Example: 
+
+```{r,include=TRUE}
+blue2 <- read_excel("data/bluecrab.xlsx")
+blue2
+```
+There is no package for reading in numbers, open office, or google sheets files reliably. Consider converting all non-text files (including Excel files) into text files. 
+
+
+#### Check Your Understanding
+
+Import the data set in `tomatohaul2021.csv` as `tomato.data`. The first column should be row names, the dates should be characters, and there is a header. 
+
+```{r,include=TRUE}
+
+```
+
+## Cleaning Up Data
+
+#### Cleaning up column names
+
+In the `janitor` package, `clean_names()` will clean up and standardize column names automatically. 
+```{r,include=TRUE}
+# Note: data frame with new column names is not stored
+clean_names(babycrab.data)
+```
+
+#### Remove empty rows and/or columns
+
+```{r,include=TRUE}
+# Note: new data frame is not stored
+remove_empty(babycrab.data, 
+             which=c("rows","cols"))
+```
+
+#### Combining Cleaning Functions with Pipe Command
+
+Tidyverse has a helpful pipe command (`%>%`) which will allow you to run several functions at once! The syntax is the 
+
+```
+object.name %>%
+   fun1() %>%
+   fun2()
+```
+
+You can do this with as many functions as you need. You also don't enter the object as an argument (the pipe does that for you). You can assign this to a new variable if you'd like. You can assign the output unsing the assign arrow like this:
+
+```{r,include=TRUE}
+babycrab.clean <- babycrab.data %>% 
+  clean_names() %>% 
+  remove_empty(which=c("cols"))
+```
+
+#### Omit rows with NA values
+
+We've discuss this before, `na.omit()` to remove all rows with a single NA value, leaving only complete observations. 
+```{r,include=TRUE}
+# Note: new data frame is not stored
+babycrab.clean <- na.omit(babycrab.clean)
+```
+
+Be careful, you may not want to get rid of that much data! 
+
+#### Check Your Understanding
+
+Use the pipe operator to create `babycrab.clean` object that takes `babycrab.data` and cleans it with each of the cleaning steps at once but in this order: (1) cleans column names, (2) removes empty rows and columns, and (3) removes all rows with `NA` values.
+
+```{r,include=TRUE}
+
+```
+
+
+## Writing Data to a File
+
+#### Using `write.table()`
+
+Use `write.table()` to save data frames as plain text files:
+
+```{r,include=TRUE}
+write.table(babycrab.clean, 
+            file = "data/babycrab-clean.csv", 
+            sep = ",")
+```
+
+Using `write.csv()` automatically sets `sep = ","`:
+
+```{r,include=TRUE}
+#Equivalent to above
+write.csv(babycrab.clean, 
+          file = "data/babycrab-clean.csv")
+```
+
+#### Check Your Understanding
+
+Pick a data frame from `data()` and save it as a csv file in the `data/` folder.
+
+```{r,include=TRUE}
+
+```
+
+
