@@ -1,0 +1,59 @@
+---
+title: "Lecture 2.4 Notebook"
+author: Lindsay Waldrop
+date: 10/3/2022
+output: html_notebook
+---
+
+```{r,include=TRUE}
+# Loading required libraries
+# Be sure to install these before running this file!!
+
+```
+
+## Scripting & Troubleshooting Compound Code
+
+#### Example: Blue Crab Graphing
+
+In my dissertation, I made models of crab antennae hair arrays and measured fluid speed through spaces in between the hairs. I had a bunch of conditions: splayed or clumped arrays, backward or forward facing, and how fast external fluid was moving. 
+
+I need to visualize these data and decide which factors are important. The data are in `bluecrab.csv` in the data zip.
+
+```{r}
+# Loading and cleaning data
+crab.dat <- read.csv("data/bluecrab.csv")
+crab.dat$Orient <- factor(crab.dat$Orient)
+crab.dat$Model <- factor(crab.dat$Model)
+#crab.dat$current <- factor(crab.dat$current)
+```
+
+Graphs: 
+
+ Fluid speed versus current.
+```{r}
+plot(crab.dat$current, crab.dat$Speed, 
+     pch=as.numeric(crab.dat$Orient),
+     col=as.numeric(crab.dat$Orient),
+     xlab = "External current (m/s)", 
+     ylab = "Fluid speed in array (m/s)")
+legend("topleft", legend = c("Backwards", "Forwards"), pch = c(1, 2), col = c(1, 2))
+```
+
+Speed versus hair splay:
+```{r}
+plot(crab.dat$Model, crab.dat$Speed, 
+     xlab = "Hair splay model", 
+     ylab = "Fluid speed in arary (m/s)")
+
+```
+
+
+
+#### Check Your Understanding
+
+Import the data set in `tomatohaul2021.csv` as tomato.data. Graph tomato harvest (in lbs) versus date. Make the paste tomatoes blue and the heirloom tomatoes red. Be sure there are both points and lines on the graph. Include a legend. Add an additional element! 
+
+```{r}
+
+```
+

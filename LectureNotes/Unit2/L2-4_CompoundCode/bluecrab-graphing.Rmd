@@ -1,0 +1,83 @@
+---
+title: "Blue Crab Graphing"
+output: html_notebook
+---
+
+```{r setup}
+library(tidyr)
+library(janitor)
+```
+
+## Blue Crab Graphing Practice 
+
+### Load the data
+
+```{r}
+blue.dat <- read.csv("data/bluecrab.csv", colClasses = c("numeric", "numeric", 
+                                                         "factor", "factor", "factor",
+                                                         "numeric", "numeric"))
+```
+
+### Clean the data
+
+```{r}
+# Data cleaning steps
+blue.clean <- blue.dat %>%
+  clean_names() %>%  # standardize naming of columns
+  remove_empty(which = c("cols", "rows")) # remove any empty rows and columns
+
+# Look at summary
+summary(blue.clean)
+  
+```
+It would be useful to turn some of these into factors: model, orient, current. (Go back and do this in the read.csv() file. )
+
+### Graph Something
+
+Speed vs orientation
+```{r}
+plot(speed~orient, data = blue.clean, 
+     xlab = "Array Orientation", 
+     ylab = "Fluid Speed (m/s)")
+```
+Speed versus hair splay: 
+
+```{r}
+plot(speed ~ model, data = blue.clean)
+```
+
+Speed versus Reynolds number: 
+
+```{r}
+current.shapes <- c(0, 1, 4)
+orient.cols <- c("red", "blue")
+plot(speed~re, data = blue.clean, 
+     pch = current.shapes[blue.clean$current], 
+     col = orient.cols[blue.clean$orient])
+
+```
+
+
+Loading and cleaning data. Converting dates to standard format. 
+```{r}
+tomato.data <- read.csv("data/tomatohaul2021.csv", skip = 3, header=T)
+tomato.clean <- tomato.data %>%
+  clean_names() %>%
+  remove_empty()
+
+tomato.clean$date <- as.POSIXct(tomato.clean$date)
+```
+
+Plotting tomato harvest:
+```{r}
+
+plot(heirloom ~ date, data = tomato.clean, col = "red", 
+     ylim = c(0, max(tomato.clean$paste)), 
+     ylab = "Pounds of tomatoes", 
+     xlab = "Date")
+lines(tomato.clean$date, tomato.clean$heirloom, col = "red")
+points(tomato.clean$date, tomato.clean$paste, col = "blue")
+lines(tomato.clean$date, tomato.clean$paste, col = "blue")
+legend("topleft", legend = c("paste", "heirloom"), col = c("blue", "red"), 
+       pch = rep(1, 2), lty = rep(1, 2))
+```
