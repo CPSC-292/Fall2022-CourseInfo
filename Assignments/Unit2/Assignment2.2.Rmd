@@ -1,0 +1,91 @@
+---
+title: "Assignment 2.2"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "00/00/2022"
+output: html_notebook
+---
+
+## Assignment 2.2 
+
+```{r, include=TRUE}
+# Loading required libraries
+library(tidyr)
+```
+
+*Download the robo-mussel.csv data file associated with this assignment. This data is from the Helmuth Lab's Robomussel Database, a collection of intertidal temperatures recorded from model mussels, meant to approximate the body temperatures of mussels, a locations along the west coast of North America. Be sure you put this file in the same directory as the Rmd file so that it runs correctly. *
+
+### Question 1
+
+*First, open the CSV file using a spreadsheet program (e.g., Excel).*
+
+*a. What types of measurements does the file contain? How many columns and rows?* 
+
+Answer here
+
+*b. What data classes should each column be imported as?* 
+
+Answer here
+
+*c. Are there any file headers that should be skipped?* 
+
+Answer here
+
+### Question 2 
+
+*Using read.table(), load the data from this CSV file into R. If there are any lines that should be skipped, include this argument.*
+
+Answer here
+
+```{r}
+
+
+```
+
+*a. Did R load the correct number of column and rows based on 1a? Do the column names reflect the measurements you identified in 1a? If not, how can you fix this using the read.table() function?*
+
+Answer here
+
+*b. Are the data in each column the appropriate data class? If not, how can you fix that using the \verb+read.table()+ function?*
+
+Answer here
+
+### Question 3
+
+*Clean the data up using the tidy pipe operator and however many commands you need to make the data set easy to work with. Things to consider cleaning would be: removing observations NA values, standardizing column names, and removing empty rows and columns.  Explain each command you are using and why in the Markdown text before or after the cleaning R chunk of code.*
+
+Answer here
+
+```{r}
+
+```
+
+
+### Question 4
+
+*Plotting timestamped data is sort of painful in base graphics, but here is how to step through it. *
+
+*a. Subset the data into a separate object so that it captures only the first 1,000 rows. (Plotting all of it will take too long.)*
+
+
+```{r}
+
+
+```
+
+*b. Next, convert the Timestamp column of the data subset into a POSIXct time format, make sure that it overwrites the Timestamp column (example in the RMarkdown file).*
+
+```{r}
+# Example code for a data set named mussel.dat:
+#mussel.dat$Timestamp <- as.POSIXct(mussel.dat$Timestamp)
+
+```
+
+*c. Then, make a simple plot of two columns against each other using your subset of the data. Be sure to label everything appropriately (make it look nice!)*
+
+
+```{r}
+
+
+```
+
