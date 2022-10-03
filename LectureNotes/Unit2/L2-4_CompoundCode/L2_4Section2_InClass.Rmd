@@ -1,0 +1,24 @@
+---
+title: "In Class 10/3"
+output: html_notebook
+---
+
+
+```{r}
+
+tomato.data <- read.csv("~/Chapman/Fall2022/CPSC292/data/tomatohaul2021.csv", skip=3, header=T)
+tomato.data
+tomato.data$Date = as.Date(tomato.data$Date, format = "%m/%d")
+tomato.data
+
+plot(tomato.data$Date, tomato.data$Heirloom, type="l", col="red",
+     xlab="Date",
+     ylab="Pounds of Tomatoes",
+     main="Pounds of Tomatoes by Date")
+lines(tomato.data$Date, tomato.data$Paste, type="l", col="blue")
+points(tomato.data$Date, tomato.data$Paste, col="blue")
+points(tomato.data$Date, tomato.data$Heirloom, col="red")
+legend("topleft", legend=c("Heirloom","Paste"), col=c("red", "blue"), lwd=2)
+
+```
+
