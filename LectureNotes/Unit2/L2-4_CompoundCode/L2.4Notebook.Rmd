@@ -54,6 +54,7 @@ plot(crab.dat$Model, crab.dat$Speed,
 Import the data set in `tomatohaul2021.csv` as tomato.data. Graph tomato harvest (in lbs) versus date. Make the paste tomatoes blue and the heirloom tomatoes red. Be sure there are both points and lines on the graph. Include a legend. Add an additional element! 
 
 ```{r}
-
+tomato.dat <- read.csv("data/tomatohaul2021.csv", skip =3)
+plot(as.POSIXct(tomato.dat$Date),tomato.dat$Heirloom)
 ```
 

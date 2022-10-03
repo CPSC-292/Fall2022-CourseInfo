@@ -1,0 +1,212 @@
+---
+title: "Lecture 2.5 Notebook"
+author: Lindsay Waldrop
+date: 10/5/2022
+output: html_notebook
+---
+
+```{r,include=TRUE}
+# Loading required libraries
+# Be sure to install these before running this file!!
+
+```
+
+## Basic Data Analysis
+
+In this lecture, we investigate tools that will help you perform basic data analysis on a data set. 
+
+### Describing Data
+
+Describing the relationship between data in a set is an important step. In the data set `chickwts`, chicks were fed different diets (in `chickwts$feed`) and then the weight of the chicks was measured and recorded in grams (in `chickwts$weight`). 
+
+In an experiment like this, one each column would be considered a variable. The independent variable would be the condition changed and the dependent variable would be what would be watched to see if the change had an effect.
+
+Below, assign the correct column to each new object: `independent.variable` and `depenedent.variable` based on what you know about the chick weight experiment.
+
+```{r,include=TRUE}
+data("chickwts")
+independent.variable <- NA #assign the correct column of chickwts here
+dependent.variable <-  NA #assign the correct column of chickwts here
+```
+
+The type of variable is also important to consider, because variable types determine what sort of plots and statistics you can use on particular data. Here are some variable types and their characteristics: 
+
+ * __Continuous__: variables that exist on a continuous scale. Things reported with decimal places are often continuous. Continuous data can exist at any point in the variable's range. Continuous data are often represented as numerical data class in R. Examples: in the `mtcars` data set, miles per gallon (`mpg`) and displacement (`disp`) are both continuous variables. Here, we can plot both using a scatter plot, which is appropriate for plotting two continuous variables against each other.
+```{r}
+data("mtcars")
+plot(x = mtcars$mpg, y = mtcars$disp, pch = 19,
+     xlab = "Miles per gallon", 
+     ylab = "Displacement")
+```
+ * __Discrete__: variables that are numbers but can only be pulled from specific numbers (and no where in between). This can be ranges (like the ones created by `cut()`), integers, or counts, which can only exist as whole numbers. Discrete data can be represented as integers or factors data classes in R (other classes are also possible). Example: in the `mtcars` data set, number of cylinders (`cyl`) is a discrete variable. Here, we can plot a stacked dot plot to show the number of cars which have either 4,  6, or 8 cylinders.
+```{r}
+stripchart(mtcars$cyl, method="stack", pch = 19,
+           xlab = "Number of cylinders",
+           ylab = "Count")
+```
+ * __Categorical__: variables which are non-numerical and form discrete groups. Things like color, quality, and species are categorical variables. Categorical data is most often represented in R as data class factor. Example: in the `iris` data set, the iris flower species (`Species`) column is categorical. Here we can use a box plot to plot petal length (`Petal.Length`, a continuous variable) against species (a categorical variable):
+```{r,include=TRUE}
+data("iris")
+boxplot(Petal.Length ~ Species, data = iris, 
+        xlab = "Speices", ylab = "Petal Length (mm)")
+```
+Another helpful distinction is between univariate and multivariate data. For univariate data, each measurement can be represented as a single number, so weight can be a single number in grams. For multivariate data, you need more than one component to represent a variable. An example is latitude and longitude in the quakes data set. 
+
+#### Put your answer to the Check Your Understanding here
+
+For each of the columns in chickwts, what are the variable types? How could you plot these columns together? Make the plot below.
+
+```{r,include=TRUE}
+
+```
+
+## Summary Statistics
+
+#### Measures of Centrality
+
+Measures of centrality are often useful for getting an overview of the data. Each tells you a little different info about the data.
+
+We'll use the `iris` data set to demonstrate measures of centratlity. Here, we've plotted the the petal lengths of the `setosa` species of iris. This is a stacked dot plot, where each dot is a single observation and the x-axis represents the value of that measurement.
+
+```{r}
+stripchart(iris$Petal.Length[iris$Species ==  "setosa"], 
+           method = "stack", pch = 19, ylim = c(0, 5),
+           xlab = "Petal Length", 
+           ylab = "Observation Count")
+```
+
+ * __Mean__: arithmetic calculation of the center point of the data set. Calculated with `mean()` in R. Here, the mean is the large red dot:
+
+```{r}
+stripchart(iris$Petal.Length[iris$Species ==  "setosa"], 
+           method = "stack", pch = 19, ylim = c(0, 5), 
+           xlab = "Petal Length", ylab = "Observation Count")
+points(x = mean(iris$Petal.Length[iris$Species == "setosa"]), y = c(1), 
+       col = "red", pch = 19, cex = 1.5)
+text(x = mean(iris$Petal.Length[iris$Species == "setosa"]), y = c(1), 
+     labels = "Mean", pos = 1, col = "red")
+```
+
+ * __Median__: middle magnitude of a set of observations. Calculated with `median()` in R.
+
+```{r}
+stripchart(iris$Petal.Length[iris$Species ==  "setosa"], 
+           method = "stack", pch = 19,  ylim = c(0, 5), 
+           xlab = "Petal Length", ylab = "Observation Count")
+points(x = median(iris$Petal.Length[iris$Species == "setosa"]), y = c(1), 
+       col = "blue", pch = 19, cex = 1.5)
+text(x= mean(iris$Petal.Length[iris$Species == "setosa"]), y = c(1), 
+     labels = "Median", pos = 1, col = "blue")
+
+```
+ * __Mode__: most common observation in a set. Calculated with table() in R, which will show you the count per observation: 
+
+```{r}
+table(iris$Petal.Length[iris$Species ==  "setosa"])
+```
+In this subset of the iris petal length data, both 1.4 and 1.5 are tied with 13 observations each.
+
+#### Measures of Spread
+
+Measures of distribution of the data describe not only where they in terms of centrality, but also how spread out the data are from each other.
+
+ * __Range__: describes the lowest and highest value in a data set. Range is calculated using `range()` in R.
+
+```{r}
+stripchart(iris$Petal.Length[iris$Species ==  "setosa"], method = "stack", 
+           pch = 19, ylim = c(0, 5), 
+           xlab = "Petal Length", ylab = "Observation Count")
+arrows(x0 = range(iris$Petal.Length[iris$Species == "setosa"])[1], 
+       x1 = range(iris$Petal.Length[iris$Species == "setosa"])[2], 
+       y0 = 0.5, y1 = 0.5, 
+       col = "orange", code = 3, angle = 90)
+text(x= mean(iris$Petal.Length[iris$Species == "setosa"]), y = c(1), 
+     labels = "Range", pos = 1, col = "orange")
+```
+
+
+ * __Quantile__: a statistic that tells you the point below which a certain percentage of data lies. Typical quartiles are measured at 0%, 25%, 50%, 75%, and 100%. Quantiles are calculated using `quantile()` in R. 
+ 
+```{r}
+iris.quants <- quantile(iris$Petal.Length[iris$Species == "setosa"])
+
+stripchart(iris$Petal.Length[iris$Species ==  "setosa"], method = "stack", 
+           pch = 19,  ylim = c(0, 5), 
+           xlab = "Petal Length", ylab = "Observation Count")
+lines(x = c(iris.quants[1], iris.quants[1]), y = c(0.5, 5), 
+      col = "gray60")
+text(x = iris.quants[1], y = c(0.25), 
+     labels = "0% Quantile", pos = 4, col = "gray60")
+lines(x = c(iris.quants[2], iris.quants[2]), y = c(0.5, 5), col = "gray50")
+text(x = iris.quants[2], y = c(0.25), 
+     labels = "25% Quantile", pos = 2, col = "gray50")
+lines(x = c(iris.quants[3], iris.quants[3]), 
+      y = c(0.5, 5), col = "gray30")
+text(x = iris.quants[3], y = c(0.25), 
+     labels = "50% Quantile", pos = 1, col = "gray30")
+lines(x = c(iris.quants[4], iris.quants[4]), y = c(0.5, 5), 
+      col = "gray20")
+text(x= iris.quants[4], y = c(2), 
+     labels = "75% Quantile", pos = 4, col = "gray20")
+lines(x = c(iris.quants[5], iris.quants[5]), y = c(0.5, 5), 
+      col = "black")
+text(x= iris.quants[5], y = c(0.25), 
+     labels = "100% Quantile", pos = 2, col = "black")
+```
+ * __Standard deviation__: square of the variance around the arithmetic mean, or how much values are spread around the mean. 
+ 
+```{r}
+stripchart(iris$Petal.Length[iris$Species ==  "setosa"], 
+           method = "stack", pch = 19, ylim = c(0, 5),
+           xlab = "Petal Length", ylab = "Observation Count")
+points(x = mean(iris$Petal.Length[iris$Species == "setosa"]), y = c(1), 
+       col = "red", pch = 19, cex = 1.5)
+text(x = mean(iris$Petal.Length[iris$Species == "setosa"]), y = c(1), 
+     labels = "Mean", pos = 1, col = "red")
+arrows(x0 = mean(iris$Petal.Length[iris$Species == "setosa"]) - 
+         sd(iris$Petal.Length[iris$Species == "setosa"]), 
+       x1 = mean(iris$Petal.Length[iris$Species == "setosa"]) + 
+         sd(iris$Petal.Length[iris$Species == "setosa"]), 
+       y0 = 1, y1 = 1, 
+       col = "purple", code=3, angle = 90)
+text(x = mean(iris$Petal.Length[iris$Species == "setosa"]) - 
+         sd(iris$Petal.Length[iris$Species == "setosa"]), 
+     y = c(0.5), labels = "2 x Standard deviation", 
+     pos = 1, col = "purple")
+```
+
+
+
+
+#### Pro Tips
+
+Here are some useful tricks for quickly getting summary statistics!  
+
+ *  You can use `summary()` to quickly calculate mean, median, quantiles, and range of columns in a data frame!
+ 
+```{r}
+summary(chickwts)
+```
+
+ * You can use `tapply()` to quickly apply a function like mean to each grouping of a column: 
+ 
+```{r}
+tapply(chickwts$weight, INDEX = chickwts$feed, FUN = mean)
+```
+
+
+ * You can quickly calculate the interquartile range using `IQR()`:
+ 
+```{r}
+IQR(chickwts$weight)
+```
+ 
+#### Put your answer to the Check Your Understanding here
+
+Calculate the mean and standard deviation of sepal lengths in the iris data set broken down by species. (Hint: use `tapply()`!)
+
+```{r,include=TRUE}
+
+```
+
+

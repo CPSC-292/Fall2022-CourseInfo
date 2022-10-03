@@ -1,0 +1,66 @@
+---
+title: "Assignment 2.4"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "00/00/2022"
+output: html_notebook
+---
+
+
+## Assignment 2.4
+
+```{r, include=TRUE}
+# Loading required libraries
+
+```
+
+### Question 1
+
+*Download the ElephantsMF.csv data file associated with the assignment. This data set is from Kaggle user Mostafa Elseidy \href{https://www.kaggle.com/mostafaelseidy/elephantsmf}{https://www.kaggle.com/mostafaelseidy/elephantsmf}.  According to the details, this data set represents data on 288 African elephants that are greater than 2 years old and are a part of the publication referenced below.  Load this data set into your R Markdown file.  *
+
+
+```{r, include=TRUE}
+
+```
+
+### Question 2
+
+*Answer the following using a line of code and a written explanation.*
+
+*a. What are the columns in this data set and what data class are each?*
+```{r, include=TRUE}
+
+```
+
+
+*b. What is the mean and standard deviations of the heights of elephants in the data set?*
+
+```{r, include=TRUE}
+
+```
+
+
+
+*c. What is age range of the elephants in the data set? Are there more young or old elephants in the data set, or is the representation pretty even? (Hint: check the quartiles and use stripchart() to look at the distribution.)*
+
+```{r, include=TRUE}
+
+```
+
+
+### Quesion 3: 
+
+*Is there a height difference between male and female elephants in this data set? How can you tell?*
+
+```{r, include=TRUE}
+
+```
+
+### Question 4: 
+
+*Is there a relationship between height and age of these elephants? How can you tell?*
+
+
+```{r, include=TRUE}
+
+```
