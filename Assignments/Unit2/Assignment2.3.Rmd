@@ -1,0 +1,34 @@
+---
+title: "Assignment 2.3"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "00/00/2022"
+output: html_notebook
+---
+
+## Assignment 2.3 
+
+```{r, include=TRUE}
+# Loading required libraries
+
+```
+
+### Question 1
+
+*Create a plot using base graphics (not ggplot!) the `Loblolly` data set that graphs height versus age. Color each point by the Seed number. Make sure that the code displays along with your plot. Include all parts of the code (including anything you used to figure out how to construct the plot). *
+
+```{r, include=TRUE}
+ 
+```
+
+## Question 2
+
+*Now add lines to the plot in Question 1. The lines should connect individual Seed numbers only, and should be the same color as the points. Make this a separate code chunk by copying the first plot over to this question.*
+
+
+```{r, include=TRUE}
+
+
+
+```
+
