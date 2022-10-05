@@ -58,3 +58,9 @@ vignettes/*.pdf
 # Lecture videos
 *.mov
 *.mp4
+
+# Photos
+*.png
+*.tif
+*.jpg
+*.jpeg

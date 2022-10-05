@@ -1,0 +1,235 @@
+---
+title: "Lecture 2.6 Notebook"
+author: Lindsay Waldrop
+date: 10/7/2022
+output: html_notebook
+---
+
+```{r,include=TRUE}
+# Loading required libraries
+# Be sure to install these before running this file!!
+library(lattice)
+library(ggplot2)
+library(tidyr)
+
+data("mtcars")
+```
+
+## Plotting Systems in R
+
+#### Base graphics and the `grid` package
+
+Example of a plot in base graphics using the `mtcars` data set: 
+
+```{r, include=TRUE}
+plot(x = mtcars$mpg, y = mtcars$hp, 
+     col = "black", bg = "red", pch = 21)
+```
+
+#### The Trellis system in the `lattice` package
+
+Example of a density plot in the `lattice` package:
+
+```{r,include=TRUE}
+densityplot(~mpg, data = mtcars,
+            main = "Density Plot",
+            xlab = "Miles per Gallon")
+```
+#### The Grammar of Graphics `ggplot2` package
+
+Example of a plot using `ggplot2`:
+
+```{r, include=TRUE}
+ggplot(mtcars, aes(x = mpg, y = hp, fill = factor(cyl))) + 
+  geom_point(pch = 21, size = 2)  +
+  xlab("Miles per Gallon") + ylab("Horsepower")
+```
+
+#### Put your answer to the Check Your Understanding here
+
+```{r, include=TRUE}
+
+```
+
+## Data Shape and `ggplot`
+
+To reap the most benefits from the `ggplot` package, many times it will require you to reshape your data from a traditional "wide" format to a "long" format. 
+
+Reshape the `Loblolly` dataset into the wide format using `pivot_wider` from the `tidyr` package:
+```{r,include=TRUE}
+data("Loblolly")
+Loblolly.wide <- pivot_wider(Loblolly, 
+                             names_from = age, 
+                             values_from = height)
+Loblolly.wide
+```
+Now convert Loblolly into the long format, preferred by `ggplot`, using `pivot_longer` in the `tidyr` package:
+
+```{r,include=TRUE}
+Loblolly.long <- pivot_longer(Loblolly.wide, 
+                              cols = !Seed, 
+                              names_to = "age", 
+                              values_to = "Height", 
+                              names_transform = list(age = as.numeric))
+Loblolly.long
+```
+
+It's not always necessary to reshape your data frame, it depends on what you want to plot and how you want it mapped!
+
+#### Plotting with wide vs long data
+
+Using the two loblolly data frames, here are two plots. 
+
+First, in the wide format, we can plot individual seeds at individual years, but are unable to plot something perhaps more useful, like height versus age. You MUST map each column to x and y, which limits your options in the wide format.
+```{r,include=TRUE}
+ggplot(Loblolly.wide, aes(x = Seed, y = `3`)) + geom_point()
+```
+However, in the long format useful things like height versus age are easily plotted out: 
+```{r,include=TRUE}
+ggplot(Loblolly.long, aes(x = factor(age), y = Height, color = Seed)) +
+  geom_point(pch = 19) 
+```
+
+It's also possible to run other geoms like `geom_boxplot()`, which will calculate the means and quartiles for each age and plot them: 
+
+```{r,include=TRUE}
+ggplot(Loblolly.long, aes(x = factor(age), y = Height)) + 
+  geom_boxplot()
+```
+
+Another popular plot is a violin plot, where the distribution of data is represented by the width of the violin: 
+
+```{r,include=TRUE}
+ggplot(Loblolly.long, aes(x = factor(age), y = Height)) + 
+  geom_violin()
+```
+
+#### Put your answer to the Check Your Understanding here
+
+Answer to 1:
+```{r, include=TRUE}
+
+```
+
+Answer to 2: 
+```{r, include=TRUE}
+
+```
+
+## Changing Attributes
+
+#### Changing Basic Plot Attributes
+
+Here are some example plots in the lecture, simply comment or uncomment the ones you want to see plotted. 
+
+Plot and axis labels: 
+
+```{r, include=TRUE}
+p <- ggplot(mtcars, aes(x = mpg, y = hp)) +
+  geom_point()
+p + xlab("Miles Per Gallon") # X-axis label
+p + ylab("Horsepower") # Y-axis label
+p + ggtitle("Horsepower vs MPG from MTCars") # chart title
+```
+
+Axis scales: 
+```{r,include=TRUE}
+p + xlim(0, 50) # altering limits of x-axis
+p + ylim(0, 500) # altering limits of y-axis
+# Note: no color to alter
+```
+
+Formatting plot area and text: 
+```{r, include=TRUE}
+# Alters size of text throughout plot and angel of the text to the x-axis.
+p + theme(text = element_text(size = 20),
+          axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+Minimal theme: 
+```{r,include=TRUE}
+p + theme_minimal()
+```
+
+#### Changing Aesthetic Values
+
+Changing point size, shape, color, and fill independently of mapping:
+```{r,include=TRUE}
+p2 <- ggplot(mtcars, aes(x = mpg, y = hp)) 
+p2 + geom_point(size = 2)
+p2 + geom_point(shape = 3)
+p2 + geom_point(color = "red")
+p2 + geom_point(pch = 21, color = "black", fill = "red")
+```
+
+#### Put your answer to the Check Your Understanding here
+
+```{r, include=TRUE}
+
+```
+
+
+#### Grouping and Aesthetic Values
+
+In order to have things like color, point, or size alter with the values of one of your data columns, you have to *map* this data onto a value. Here are three examples of how to map the `cyl` column from mtcars onto either fill, color, or shape. Uncomment the line you'd like to see.
+
+```{r,include=TRUE}
+# color:
+ggplot(mtcars, aes(x = mpg, y = hp, color = factor(cyl))) + geom_point()
+# fill:
+ggplot(mtcars, aes(x = mpg, y = hp, fill = factor(cyl))) + geom_point(shape = 21)
+# shape:
+ggplot(mtcars, aes(x = mpg, y = hp, shape = factor(cyl))) + geom_point()
+```
+
+Mapping something like color in the initial `ggplot()` call of `aes()` will map that variable onto every geom that you add: 
+```{r,include=TRUE}
+ggplot(mtcars, aes(x = mpg, y = hp, color = factor(cyl))) + 
+  geom_point() + geom_line()
+```
+
+If you would like an aesthetic value to change with one of your data columns, this MUST be done inside `aes()`. The following maps incorrectly and will not produce a legend:
+```{r,include=TRUE}
+ggplot(mtcars, aes(x = mpg, y = hp)) + geom_point(color = factor(mtcars$cyl))
+```
+
+## Adding Data to Existing Plots
+
+One of the more clunky things about ggplot is that adding data from an outside data set is a bit awkward. You can do this, but you have to define the new data set you're using and the mapping within the geom. 
+
+For this example, we will use the `Loblolly.wide` data frame and add another column to the graph. 
+```{r,include=TRUE}
+# Create and store graph with year 3 data:
+p2 <- ggplot(Loblolly.wide, aes(x = Seed, y = `3`)) + 
+  geom_point()
+# Add year 5 data to the existing graph p2:
+p2 + geom_point(data = Loblolly.wide, 
+                mapping = aes(x = Seed, y = `5`),
+                color = "red")
+```
+This is super clunky and will not give you an automatic legend. Try to avoid adding data in this manner unless it is unavoidable!
+
+#### Put your answer to the Check Your Understanding here
+
+```{r, include=TRUE}
+
+```
+
+## Skill Check 2.1: Geometric Object Types
+
+For the next two class periods, you will work in a small group to prepare some sample code for using each of the following groups of geometric objects for your classmates: 
+
+ 1. `geom_point()`, `geom_line()`, `geom_qq_line()`
+ 2. `geom_bar()`, `geom_boxplot()`, `geom_violin()`
+ 3. `geom_histogram()`, `geom_density()`, `geom_dotplot()` 
+ 4. `geom_map()`
+ 5. `geom_raster()`, `geom_tile()`, `geom_contour()`
+ 6. Other geoms: [ggplot extension gallery](https://exts.ggplot2.tidyverse.org/gallery/)
+ 
+Be ready to give a short presentation on each graph type. Let us know the following things: 
+
+ * what does the plot look like (present an example of each)
+ * what data are appropriate for use (categorical, continuous, etc)
+ * what does the plot tell us about the data (generally)
+ 
+Before class, you'll be responsible for turning in an R Markdown file with the example code as part of your Skill Check 2.1. 
