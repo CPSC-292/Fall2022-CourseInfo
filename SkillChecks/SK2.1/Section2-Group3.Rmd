@@ -1,0 +1,74 @@
+```{r}
+set.seed(1234)
+df <- data.frame(
+  sex=factor(rep(c("F", "M"), each=200)),
+  weight=round(c(rnorm(200, mean=55, sd=5), rnorm(200, mean=65, sd=5)))
+  )
+head(df)
+
+```
+### Histogram
+```{r}
+library(ggplot2)
+# Basic histogram
+ggplot(df, aes(x=weight)) + geom_histogram()
+# Change the width of bins
+ggplot(df, aes(x=weight)) + 
+  geom_histogram(binwidth=1)
+# Change colors
+p<-ggplot(df, aes(x=weight)) + 
+  geom_histogram(color="black", fill="white")
+```
+```{r}
+# Add mean line
+p+ geom_vline(aes(xintercept=mean(weight)),
+            color="blue", linetype="dashed", size=1)
+# Histogram with density plot
+ggplot(df, aes(x=weight)) + 
+ geom_histogram(aes(y=..density..), colour="black", fill="white")+
+ geom_density(alpha=.2, fill="#FF6666") 
+```
+```{r}
+set.seed(123)
+df <- data.frame(
+  sound =factor(rep(c("H","L"), each= 200)),
+  volume= round(c(rnorm(200, mean =55, sd=5),
+                rnorm(200, mean =65, sd=5 )))
+)
+```
+
+
+```{r}
+p <- ggplot(df, aes(x=volume)) +
+  geom_density()
+
+p + geom_vline(aes(xintercept=mean(volume)),
+              color="blue", linetype="dashed", size=1 )
+```
+
+### Density 
+```{r}
+library(ggplot2)
+library(dplyr)
+
+pressure_density <- density(storms$pressure)
+plot(pressure_density)
+ggplot(data=storms, aes(x=pressure)) + geom_density()
+```
+
+### Dotplot 
+```{r}
+library(ggplot2)
+# Basic dot plot
+p<-ggplot(ToothGrowth, aes(x=dose, y=len)) + 
+  geom_dotplot(binaxis='y', stackdir='center')
+p
+# Change dotsize and stack ratio
+ggplot(ToothGrowth, aes(x=dose, y=len)) + 
+  geom_dotplot(binaxis='y', stackdir='center',
+               stackratio=1.5, dotsize=1.2)
+# Rotate the dot plot
+p + coord_flip()
+```
+
+

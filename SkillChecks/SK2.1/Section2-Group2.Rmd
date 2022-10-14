@@ -1,0 +1,54 @@
+---
+title: "Continuous y and Categorical x Data"
+subtitle: "Bar Plot, Box Plot, & Violin Plot"
+output: html_notebook
+---
+
+```{r}
+library(lattice)
+library(ggplot2)
+library(tidyr)
+library(RColorBrewer)
+```
+
+
+### Bar Plot
+Bar graphs are used in order to compare data of different groups and also when the data is showing how a value changes over different timestamps.
+```{r}
+ggplot(data=Orange, aes(x=Tree, y=circumference, color=Tree, fill=Tree)) +
+  labs(x="Tree",
+    y="Circumference (mm)",
+    title="Average Circumference of Orange Tree Type") +
+  geom_bar(stat='identity') + 
+  scale_color_manual(values=c("mediumpurple3","lightskyblue","palegreen3","pink2","lightyellow")) +
+  scale_fill_manual(values=c("mediumpurple","lightskyblue2","palegreen3","pink","lightyellow")) +
+  scale_x_discrete (limits=c("1","2","3","4","5"))
+```
+
+
+### Box Plot
+The box plot illustrates the distribution of given data by depicting the median, the minimum and maximum values, and the 1st and 3rd quartiles. 
+```{r}
+ggplot(Orange, aes(x=Tree, y=circumference, color=Tree)) +
+  labs(x="Tree", 
+       y="Circumference (mm)", 
+       title = "Circumference of Different Orange Trees") + 
+  geom_boxplot() +
+  scale_color_manual(values=c("darkseagreen","#FFCCCC","#99CCFF","#996699","cornsilk3")) +
+  theme(plot.title = element_text(hjust=0.5)) +
+  scale_x_discrete(limits=c("1","2","3","4","5"))
+
+
+```
+
+
+### Violin Plot
+```{r}
+ggplot(Orange, aes(x = Tree, y = circumference, fill = Tree)) + 
+  geom_violin() + 
+  labs(title = "Comparison of Orange Trees and Circumfrence", 
+       x = "Tree", 
+       y = "Circumference (mm) " ) + scale_fill_brewer(palette="Blues") +
+  theme_minimal()
+```
+

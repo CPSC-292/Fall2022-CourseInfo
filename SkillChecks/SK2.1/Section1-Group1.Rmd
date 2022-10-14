@@ -1,0 +1,52 @@
+---
+title: "Skill Check 2.1 Presentation"
+output: html_document
+date: "2022-10-10"
+---
+## Group 1
+
+```{r setup, include=TRUE}
+library(ggplot2)
+library(tidyr)
+data("pressure")
+data("mtcars")
+```
+## Graph Types 
+
+geom_point()
+geom_line()
+geom_qq_line() 
+
+
+## Type of data best for each 
+geom_point() is best for continuous vs continuous. It also can be used for categorial vs continuous and categorial vs. categorial.
+
+geom_line() is best for continuous vs continuous. It also can be used for categorial vs continuous and categorial vs. categorial.
+
+geom_qq_line is best for continuous and categorial data.
+
+## geom_point plot   
+```{r, include = TRUE}
+ggplot(pressure, aes(x = temperature, y = pressure)) + geom_point(size = 3) + xlab("Temperature")+ ylab("Pressure")+ ggtitle("Pressure vs. Temperature")
+```
+## Interpretation of the data for geom_point
+As the temperature increases the pressure increases (seemingly exponentially)
+
+##geom_line plot
+```{r, include = TRUE}
+ggplot(pressure, aes(x = temperature, y = pressure)) + geom_line() + xlab("Temperature")+ ylab("Pressure")+ ggtitle("Pressure vs. Temperature")
+```
+## Interpretation of the data for geom_line
+As the temperature increases the pressure increases (seemingly exponentially)
+
+##geom_qq_line
+```{r, include = TRUE}
+
+ggplot(mtcars, aes(sample = mpg)) + geom_qq()+ geom_qq_line() + xlab("Quantiles") + ylab("MPG") + ggtitle("Distribution of MPG among cars in mtcars")
+
+mean(mtcars$mpg)
+median(mtcars$mpg)
+
+```
+## Interpretation of the data for geom_qq_plot
+This plot shows that there is the highest saturation of cars around 20 MPG, which lines up with the mean and median mpg which are both around 20 mpg. The quantiles each represent deviation from the center of the normal distribution. 

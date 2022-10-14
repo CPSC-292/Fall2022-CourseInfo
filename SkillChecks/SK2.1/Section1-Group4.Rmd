@@ -1,0 +1,104 @@
+---
+title: "Skill Check 2.1"
+output: html_notebook
+date: "2022-10-12"
+---
+
+```{r}
+library(maps)
+library(mapproj)
+library(tidyr)
+library(ggplot2)
+```
+
+geom_point()
+```{r}
+ ggplot(quakes, aes(x=long, y=lat, fill = stations, col = depth, size = factor(mag))) + geom_point()+
+ xlab("Longitude")+
+ ylab("Latitude")+
+ggtitle("Fiji Earthquake Data")+
+scale_color_viridis_b()
+```
+
+
+```{r}
+data("quakes")
+
+map("world")
+points(x=quakes$long, y=quakes$lat, col = "blue")
+
+map("world")
+points(x=quakes$long, y=quakes$lat, col = quakes$mag)
+
+map("world")
+points(x=quakes$long, y=quakes$lat, col = quakes$mag, pch=quakes$mag)
+
+map(database = "world", region = "fiji")
+points(x=quakes$long, y=quakes$lat,  col = "blue")
+```
+
+
+map_data()
+
+```{r}
+data("quakes")
+map_data("world")
+fijiquakes <- quakes
+names(fijiquakes) <- tolower(names(fijiquakes))
+quakes$mag <- tolower(rownames(quakes))
+ggplot(quakes, aes(long,lat)) +
+  geom_polygon(aes(group = mag, fill = depth))+
+  coord_map("albers", lat0=-38.59, lat1=-10.72)+
+  geom_point(shape = quakes$mag)+
+   xlab("Longitude")+
+ ylab("Latitude")+
+ggtitle("Fiji Earthquake Data")
+```
+
+map_data(), geom_polygon(), and coord_map
+```{r}
+
+if (require("maps"))
+  states <- map_data("state")
+  arrests <- USArrests
+  names(arrests) <- tolower(names(arrests))
+  arrests$region <- tolower(rownames(USArrests))
+  
+  choro <- merge(states, arrests, sort = FALSE, by = "region")
+  choro <- choro[order(choro$order), ]
+  
+  US.arrest <- ggplot(choro, aes(long, lat)) +
+    geom_polygon(aes(group = group, fill = assault)) +
+    coord_map("albers",  lat0 = 45.5, lat1 = 29.5)
+  
+  US.arrest + xlab("Longitude") + ylab("Latitude") + ggtitle("Map Plot of Number of Assaults in the United States (Albers)")
+ 
+```
+
+The coding of this map requires you to download maps() and use mapproj(), ggplot2(), and map_data().
+
+maps(): a package with map data
+mapproj(): converts latitude and longitude into projected coordinates
+map_data(): turns data from the maps package into a data frame that can be plotted
+
+We named two separate data frames we wanted to compare: a map of the states and arrests. Then, we used the function tolower() for the data, which translates characters into character vectors. Next, we used merge() to combine the two data frames created above by regions. After ordering the arguments that were merged, we created the ggplot. For this example, we used the geom_polygon() and map_coord(). The geom_polygon() function fills in the shapes, while map_coord() function projects a portion of the earth onto a flat plane. The fill represents the data that is represented by color and "ablers" represents the type of graph. The ablers projection shows the map data as if it were on a globe, or a spherecal surface. There is also the option a Mercator projection, shown below.
+
+
+```{r}
+
+if (require("maps"))
+US.arrest2 <- ggplot(choro, aes(long, lat)) +
+  geom_polygon(aes(group = group, fill = assault / murder)) +
+  coord_map(projection = "mercator")
+
+US.arrest2 + xlab("Longitude") + xlab("Latitude") + ggtitle("Map Plot of Number of Assaults and Murder in the United States (Mercator)")
+
+
+```
+The only difference from an abler projection to a mercator projection is that the
+latitude and longitude coordinates are not needed. As you can see in the graph,
+the mercator projection shows the map on a flat surface rather than a rounded globe.
+
+
+
+

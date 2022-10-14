@@ -1,0 +1,118 @@
+---
+title: "Skill Check 2.1"
+subtitle: "CPSC 292 Section 1 -- Waldrop"
+author: "Group 3"
+date: "10/10/2022"
+output: html_notebook
+---
+
+```{r}
+# Loading required libraries
+library(ggplot2)
+```
+
+# Dotplot
+
+The mtcars dataset comes from the 1974 Motor Trend US magazine, and includes automobile design and performance aspects for 32 cars. 
+
+The example Dotplot plots the number of cylinders that each of the cars has. There are 32 data points that are categorized into data bins. 
+
+The data appropriate for use in the dotplot would be continuous data since there are values within the variable’s range. Looking at the data/graph one can distinguish the Motor Trend Car Road Test between all thirty two cars. In the columns there is the variety of testing parts starting from Miles, Number of cylinders, Engine ect and in the rows there are the different car brands.
+
+```{r}
+data("mtcars")
+force(mtcars)
+ggplot(mtcars, aes(x = cyl)) + 
+  geom_dotplot() +
+  xlab("Number of cylinders") + 
+  ylab("Count") + 
+  ggtitle("Number of cylinders of the cars in mtcars") 
+```
+
+Technical limitations of ggplot2 produce tick marks and numbering that are meaningless on the y-axis. This can be fixed with additional code. 
+
+```{r}
+data("mtcars")
+force(mtcars)
+ggplot(mtcars, aes(x = cyl)) + 
+  geom_dotplot() +
+  xlab("Number of cylinders") + 
+  ylab("Count") + 
+  ggtitle("Number of cylinders of the cars in mtcars") +
+  scale_y_continuous(breaks = NULL) + # Remove y-axis tick markers 
+  theme(axis.title.y = element_blank()) # Remove y-axis numbering
+```
+
+
+
+# Histogram
+
+The data set is the daily air quality measurements in New York, May to September 1973. The temperature parameter will be used to make the histogram.
+
+The data frame has 153 observations for our four variables presented to us:Temperature, Ozone Level, Solar Radiation, and Wind Speed, Air Temp. One for the month and one for the day, are used to store the date for each observation set. Except for the Wind Speed, which is stored as a numerical value, all of the data values are stored as integers. The data appropriate for use in the histogram would be continuous data since there are values within the variable’s range.
+
+```{r}
+data("airquality")
+force("airquality")
+```
+
+Simple Histogram
+```{r}
+Temperature <- airquality$Temp
+hist(Temperature)
+```
+We can see above that there are 9 cells with equally spaced breaks. In this case, the height of a cell is equal to the number of observations falling in that cell. Additional parameters can be added to control how the graph looks.
+
+main is used to give the title, xlab and ylab are to provide labels for the axes, xlim and ylim are to provide range of the axes, col is to define color etc.
+
+Additionally, with the argument freq=FALSE we can get the probability distribution instead of the frequency.
+
+Histogram with Added Features
+```{r}
+hist(Temperature,
+main="Maximum daily temperature at La Guardia Airport",
+xlab="Temperature (F)",
+xlim=c(50,100),
+col="sky blue",
+freq=FALSE)
+```
+Note that the y axis is labeled density instead of frequency. In this case, the total area of the histogram is equal to 1.
+
+You can also define the amount of cells you want in your graph. R automatically calculates the best number of cells.
+
+```{r}
+hist(Temperature, breaks = 5, main= "With breaks = 5"  )
+hist(Temperature, breaks = 20, main= "With breaks = 20"  )
+hist(Temperature, breaks = c(55,60,70,75,80,100), main= "Non-Uniform Breaks")
+```
+
+## geom_density 
+```{r}
+set.seed(1234)
+df <- data.frame( sex= factor(rep(c("F","M"), each=200)), weight=round(c(rnorm(200, mean=55, sd=5), rnorm(200, mean=65, sd=5))))
+
+head(df)
+``` 
+
+```{r}
+library(ggplot2)
+# Basic density plots
+p <- ggplot(df, aes(x=weight)) + geom_density()
+p
+
+# add mean line 
+p+ geom_vline(aes(xintercept=mean(weight)), color="blue", linetype="dashed", size=1)
+
+```
+
+```{r}
+# change density plot line types and colors 
+ggplot(df, aes(x=weight))+
+  geom_density(color="darkblue", fill="lightblue")
+# Change line type
+ggplot(df, aes(x=weight))+
+  geom_density(linetype="dashed")
+
+```
+
+

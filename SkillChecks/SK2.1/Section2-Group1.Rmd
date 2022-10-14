@@ -1,0 +1,64 @@
+---
+title: "Continous x and y data"
+output: html_notebook
+---
+## geom_point
+It is used as a means to change the graph or object being visualized. It adds a layer of points to the plots to create a scatterplot. And it is part of the ggplot2 which has many more geom functions and geom_point is one of them.
+
+```{r}
+data(mtcars)
+p <-ggplot(mtcars, aes(x= mpg, y= hp))
+p + geom_point(size = 4)
+p + geom_point(shape= 8)
+p + geom_point(color= "purple")
+p + geom_point(pch = 19, color = "light green", fill = "black")
+```
+## geom_line
+Geom_line() allows for modification of the observed data in the x-axis
+
+```{r}
+library(ggplot2)
+data("Loblolly")
+ggplot(Loblolly, aes(x=height, y=age, color=factor(Seed))) +
+  ggtitle("Height vs Age") +
+  geom_point()+
+  geom_line(color="blue")
+```
+
+
+```{r}
+library(ggplot2)
+data("Loblolly")
+ggplot(Loblolly, aes(x=height, y=age, color=factor(Seed))) +
+  ggtitle("Height vs Age") +
+  geom_point()+
+  geom_line(color="blue", linetype=2)
+```
+
+
+```{r}
+library(ggplot2)
+data("Loblolly")
+ggplot(Loblolly, aes(x=height, y=age, color=factor(Seed))) +
+  ggtitle("Height vs Age") +
+  geom_point() +
+  geom_line(color="darkblue", linetype=3, size=2)
+```
+
+## geom_qq_line
+
+A normal geom_qq plot shows the distribution of data against the expected natural distribution.It is used when comparing it to a bell shaped curve. The closer it is to the line, the more normally distributed data it is.
+
+```{r}
+library(ggplot2)
+
+data("Loblolly")
+
+ggplot(Loblolly, aes(sample= height, color = factor(Seed))) +
+  xlab ("Theoretical") +
+  ylab ("Height") +
+  ggtitle ("Theoretical vs. Actual Height of Trees") + 
+  stat_qq() +
+  stat_qq_line()
+```
+

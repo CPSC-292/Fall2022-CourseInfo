@@ -1,0 +1,96 @@
+---
+title: "Skill Check 2.1 - Present Graph Types: continuous y and categorical x data"
+author: "Group 2"
+date: 10/10/2022
+output: html_notebook
+---
+
+```{r,include=TRUE}
+library(ggplot2)
+library(tidyr)
+data(midwest)
+force(midwest)
+
+```
+
+## Basic Data Analysis
+
+In this presentation, we investigate the functions that will assist in performing analysis on data with a continuous y variable and a categorical x variable. In other words, data that depicts the differences between groups within a population.
+
+### Describing Data
+
+  In the data set `midwest`, the demographic information of Midwest counties from the 2000 Us census was collected. For this presentation, the categorical x variable will be the states of USA (in `midwest$state`) and the continuous y variable will be the population total of each state (in `midwest$poptotal`).
+
+  To ease the analysis of this data, a new data frame will be created with only these two variables `midwest_statepop`. Included is the setup of data for all ggplot functions.
+
+```{r,include=TRUE}
+midwest_statepop <- data.frame(State = midwest$state, Population_Total = midwest$poptotal)
+
+ggplot(midwest_statepop, aes(x= State, y= Population_Total))
+
+```
+
+### Bar Plots
+
+  The bar plot is helpful by allowing for readers to compare the population totals of each state simply by observing the heights of the bar. The simplicity of this plot allows for users to explain/demonstrate their point quickly without the need to explain what is going on.
+
+  To make a bar plot, the data must be adjusted. Each categorical variable will only have one value, which in this case is the total population within that state. The reason why each categorical variable has multiple values is because the data was originally focused on the counties as the member of each population.
+
+  A new data frame bar_df was made where each state has a total population. This was achieved by creating two vectors, one with state names and one with state population totals. The vector of state names was created by turning the state column in our data set (`midwest_statepop$State`) into a factor. The vector of state population totals was created by using `tapply()` and turning the result into a vector on integers.
+
+  What is interesting about ggplot for bar plots is that it is easy to customize the plot. Colors and legends are added easily using fill argument and the value of each column can be displayed.
+
+```{r}
+midwest_statepop$State <- factor(midwest_statepop$State)
+state_total <- as.integer(tapply(midwest_statepop$Population_Total, INDEX = midwest_statepop$State, FUN = sum))
+bar_df <- data.frame(State = levels(midwest_statepop$State), Population_Total = state_total)
+#barplot(bar_df$Population_Total~bar_df$State)
+
+ggplot(bar_df, aes(x= State, y= Population_Total, fill = State)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label=Population_Total), vjust=-0.3, size=3.5) +
+  theme_minimal() + 
+  xlab("States") + 
+  ylab("Total Population") +
+   ggtitle("             Total Population of Various States in the Midwest")
+```
+
+### Box Plots
+
+  The box plot allows for a visual display of various statistical calculations such as interquartile range and the median. This plot type can be used if you would like to display information about the data for quick and easy comparisons. 
+
+  The box plot is great for this data set, even though it does not seem so at first. This is because the outliers force the plot to look uninteresting. To get rid of the outliers, the shape of the outliers can be set to NA or simply not visible. Then the limits of the y axis can be adjusted to better fit the data that are not outliers using `coord_cartesian()`.
+
+```{r}
+ggplot(midwest_statepop, aes(x= State, y= Population_Total, fill = State)) +
+  geom_boxplot() + 
+  xlab("States") + ylab("Total Population")
+
+ggplot(midwest_statepop, aes(x= State, y= Population_Total, fill = State)) +
+  geom_boxplot(outlier.shape = NA) + 
+  coord_cartesian(ylim=c(0, 250000)) + 
+  xlab("States") + ylab("Total Population") +
+  ggtitle("                 Total Population of Various States in the Midwest")
+```
+
+### Violin Plots
+
+  The violin plot shares many similarities with the box plot such as showing the median (the black dot).However, the violin plot is able to use unique irregular shapes to give more information about the peaks and distribution in data through visual means.
+
+  The violin plot can show what values of population total are more likely for a state. For example, the state of Indiana has a high chance of its population total to be around 250000 because the plot is widest around that value.
+
+  Similar to the box plot, the outliers make the violin plot less useful, so they can be removed to a certain extent by limiting the range of the y axis. Outliers can be fully removed by removing those data points.
+
+```{r,include=TRUE}
+ggplot(midwest_statepop, aes(x= State, y= Population_Total, fill = State)) +
+  geom_violin() + 
+  xlab("States") + ylab("Total Population")
+
+ggplot(midwest_statepop, aes(x= State, y= Population_Total, fill = State)) + 
+  geom_violin() + 
+  coord_cartesian(ylim=c(0, 250000)) + 
+  stat_summary(fun=median, geom="point", size=2, color="black") + 
+  xlab("States") + 
+  ylab("Total Population") +
+   ggtitle("              Total Population of Various States in the Midwest")
+```

@@ -1,0 +1,70 @@
+---
+title: "Patchwork"
+output: html_notebook
+date: 10/10/22
+---
+
+The goal of patchwork is to make it simple to combine separate ggplots into the same graphic complex layouts. 
+What we need to get started:
+In order to successfully join 2 or more plots, the packages ggplot2 and patchwork need to be installed.
+
+```{r}
+library('patchwork') 
+library('ggplot2')
+```
+
+Example #1
+```{r}
+data("iris")
+```
+First we start off by deciding our x and y varaibles. 
+In p1 we useSepal.Length, Sepal.Width #In p2 and p3 we use Species, Sepal.Width 
+```{r}
+p1 <- ggplot(iris) + geom_point(aes(Sepal.Length, Sepal.Width, col= Species)) 
+
+p1
+
+p2 <- ggplot(iris, aes(x = Species, y = Sepal.Width,fill = Species)) +geom_bar(stat = "identity") 
+p2 
+
+p3 <- ggplot(iris) + geom_boxplot(aes(Species, Sepal.Width, col= Species)) 
+
+p3
+```
+Now that we have all our different plots we can see how we can use patchwork to view multiple at a time The simplest way to use patchwork is by adding plots together
+```{r}
+p1+p2 
+```
+Plots can be stacked on top of each other using "/" and "|" is used to place the plots next to each other. 
+```{r}
+p2+p3/p1 
+```
+The next one shows how we can print the plots to lay on top of one another 
+```{r}
+ptop <- p1 +                  
+      inset_element(p2, 0.01, 0.01, 0.7, 0.5) +
+      inset_element(p3, 0.4, 0.6, 0.99, 0.99)
+
+ptop
+```
+Often plots need to have titles, captions, tags, etc. This can be added to the plots by adding the function plot_annotation() to the original patchwork function. 
+```{r}
+title <- p1+p2/p3 
+
+title + plot_annotation( title = 'The truth about the flower iris', subtitle = 'These 3 plots will reveal how widths and lengths of sepal vary through species',caption = 'Disclaimer')
+
+title + plot_annotation(tag_levels = '1')
+```
+These tools can help us view a variety of data at once and help ourselves organize each graph through simple coding. When wanting to see multiple graphs at once, patchwork is the best tool to use.
+
+What type of data is used: Since patchwork joins 2 or more plots, it uses continuous, categorical, and discrete data.
+
+
+References:
+Pendersen, Thomas L., "patchwork:The Composer of Plots." Github, August 2022, https://github.com/thomasp85/patchwork#patchwork. 
+
+https://cran.r-project.org/web/packages/patchwork/vignettes/patchwork.html
+
+https://statisticsglobe.com/patchwork-r-package
+
+
