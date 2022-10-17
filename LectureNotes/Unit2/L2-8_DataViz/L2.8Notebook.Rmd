@@ -1,0 +1,45 @@
+---
+title: "Lecture 2.8 Notebook"
+author: Lindsay Waldrop
+date: 10/17/2022
+output: html_notebook
+---
+
+```{r setup}
+# Loading required libraries
+# Be sure to install these before running this file!!
+library(ggplot2)
+```
+
+## Best Practices in Data Visualization
+
+#### Check Your Understanding
+
+```{r}
+# Load the data set
+data("diamonds")
+force(diamonds)
+```
+
+About the diamonds data set (part of the ggplot2 library): https://ggplot2.tidyverse.org/reference/diamonds.html
+
+Are flawless diamonds on average smaller than those with inclusions? 
+
+```{r}
+ggplot(diamonds, aes(x = carat, y = price, color = clarity)) + 
+  geom_point(shape = 19) + 
+  xlab("Carat")  + ylab("Price ($)") +
+  theme_minimal()
+```
+
+How can we improve this visualization?
+
+Remember: 
+
+ 1. _Attention is Queen._ What is the most important point to draw your viewer’s attention to? How can you create a relationship that shows this point?
+ 2. _Reduce demand on working memory._ Is there anything not relevant in your graph that you could exclude? Are your graph elements easy to understand and visually process?
+ 
+Put improved graphic here: 
+```{r}
+# your improved graphic
+```

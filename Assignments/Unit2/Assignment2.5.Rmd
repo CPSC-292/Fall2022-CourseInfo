@@ -1,0 +1,30 @@
+---
+title: "Assignment 2.5"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "00/00/2022"
+output: html_notebook
+---
+
+
+## Assignment 2.5
+
+```{r, include=TRUE}
+# Loading required libraries
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+```
+
+### Question 1
+
+*Write a 200-word (approximately) that summarizes and briefly explains the three major take-aways from Lecture 2.6 How We See. Your summary should explain:*
+ 
+ * *What are the three main takeaways*
+ * *What part of the biology dictates why they work that way*
+ * *How they impact the creation of good graphics*
+
+
+### Question 2 
+
+*On slide 29 of Lecture 2.6, there is a list of fast-processing features that can be used to distin- guish data groups from each other. In three separate scatter plots graphing Sepal.Length versus Sepal.Width in the iris data set, create a demonstration of one fast-processing feature that distinguishes the different species from one another. You should have three separate plots, each showing a different fast-processing difference.*
