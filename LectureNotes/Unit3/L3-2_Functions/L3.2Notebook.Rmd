@@ -1,0 +1,208 @@
+---
+title: "Lecture 3.2 Notebook"
+author: "Lindsay Waldrop"
+date: "10/28/2022"
+output: html_notebook
+---
+```{r setup}
+library(ggplot2)
+library(viridis)
+```
+
+## 3.2 Writing Your Own Functions
+
+### Scoping and Environments
+
+In order to run a function, R must first find it! The process of searching for objects is called __scoping__. 
+
+Scoping searches through all the objects trying to match the name that you request and look up the code in order to run the function. If R finds the function, it will run the code and produce the output. If it doesn’t, it will return the error “could not find function”.
+
+```{r, include=TRUE}
+# Success:
+sum(1:10)
+# Failure:
+# sum2(1:10) # Uncomment to run
+```
+
+R has environments, or hierarchical collections of objects, to make scoping a little more efficient. The top environment is called the global environment and contains all the other environments. Packages create their own environments every time they are loaded. 
+
+R uses lexical scoping to search for objects (including functions) inside each environment throughout the hierarchy. If a package isn’t loaded, then the environment doesn’t exist! 
+
+Lexical scoping works through the environments in a certain order. Use `search()` to see the order of the environments.
+
+```{r, include=TRUE}
+search()
+```
+
+This order changes when you load a package! 
+
+```{r, include=TRUE}
+library(ggplot2)
+search()
+```
+
+The global environment is special and reserved for user-defined objects. To list objects in the global environment, use `ls()`.
+
+```{r, include=TRUE}
+a <- 3
+kipper <- c(1,2,5)
+kip.it <- function(x) x + 5
+ls()
+```
+
+Package environments can also be investigated using ls(), but need an argument.To list objects in a package, use `ls("package:packagename")`.
+
+```{r, include=TRUE}
+ls("package:viridisLite")
+```
+### Check Your Understanding
+
+Add the packages `dplyr` and `ggplot2` to your global environment with `library()`. To find the function `mean()` in the stats package, what environments does R search in what order?
+
+Write you answer here: 
+
+
+### Functions
+
+The one and only thing computers are really good at doing is repetition. Repeating things exactly the same way thousands of times is what computers do best! In order to take advantage of this feature, we need a way of giving a standard set of instructions to the computer so it can do the repetition without us having to tell it what to do after every step.
+
+Functions are a way to do this! Functions are a set of instructions that the computer can take and run without you having to intervene. _Think of functions like recipes_: they tell you all the steps to do to make a cake, but without the original author having to stand over your shoulder! 
+
+A sample function:
+
+```{r, include=TRUE}
+cakefunction <- function(x, y, kind)
+  {
+  c <- x + y
+  b <- x * y
+  h <- c + b
+  if(class(h)==kind) {
+    print("yes")
+    } else {
+      print("no")
+    }
+}
+```
+
+Run the sample function here. Note: you have to run the chunk above before you can try out the function!
+```{r, include=TRUE}
+cakefunction(1, 3, "numeric")
+mycake <- cakefunction(1, 3, "numeric")
+```
+
+### Check Your Understanding
+
+Write a function named add.these that takes two input arguments (a and b) and then returns the sum of a and b as an output. Include a line of code to see if the function works.
+
+```{r, include=TRUE}
+
+```
+
+### Functions and Environments
+
+When functions are run, they create temporary, local environments. This is a little, new environment that starts out with only the inputs you give it through the function. It will only return the last object generated.
+
+```{r, include=TRUE}
+myfunction <- function(x, y){
+  c <- x + y
+  b <- x * y
+  h <- c + b
+}
+
+myfunction(1, 3)
+myresult <- myfunction(1, 3)
+```
+
+The value of `myresult` is `r myresult`. However, you can explicitly
+
+```{r, include=TRUE}
+myfunction2 <- function(x, y)
+  {
+  c <- x + y
+  b <- x * y
+  h <- c + b
+  return(b)
+}
+
+myfunction2(1, 3)
+myresult2 <- myfunction2(1, 3)
+```
+
+Now the value of `myresult2` is `r myresult2`.
+
+### DYI Functions
+
+When should you consider turning code into a function? Think repetition! Every time you copy code more than two times, when you want to loop over functions, or when you want to repeat a table or figure the same time. 
+
+An example of a ggplot figure that I want to make three times, to compare the four continuous 
+```{r}
+ggplot(iris, aes(x = Sepal.Width, y = Sepal.Length, fill=Species)) + 
+  geom_point(size = 3, color = "gray30", pch = 21) +
+  xlab("Sepal Width") + ylab("Sepal Length") +
+  scale_fill_viridis(discrete = TRUE, direction = -1) +
+  theme_minimal()
+
+ggplot(iris, aes(x = Sepal.Width, y = Petal.Length, fill = Species)) +
+  geom_point(size = 3, color = "gray30", pch = 21) +
+  xlab("Sepal Width") + ylab("Petal Length") +
+  scale_fill_viridis(discrete = TRUE, direction = -1) +
+  theme_minimal()
+
+ggplot(iris, aes(x = Petal.Width, y = Sepal.Length, fill = Species)) +
+  geom_point(size = 3, color = "gray30", pch = 21) +
+  xlab("Sepal Width") + ylab("Sepal Length") +
+  scale_fill_viridis(discrete = TRUE, direction = -1) +
+  theme_minimal()
+```
+
+This works ok, but it's a lot of copying and pasting, leading to long chunks of code. In addition, I've forgotten to change the x-axis label in the third graph! Oops. It would be good to have a function to set all these parameters for me! 
+
+```{r,include=TRUE}
+iris.plot <- function(xpos, ypos){
+  ggplot(iris, aes_string(x = xpos, y = ypos, fill = "Species")) + 
+  geom_point(size = 3, color = "gray30", pch = 21) +
+  xlab(sub("[.]", " ", xpos)) + ylab(sub("[.]", " ", ypos)) +
+  scale_fill_viridis(discrete = TRUE, direction = -1) +
+  theme_minimal()
+}
+
+iris.plot("Sepal.Width", "Sepal.Length")
+iris.plot("Sepal.Width", "Petal.Length")
+iris.plot("Petal.Width", "Sepal.Length")
+```
+
+Now each is produced with one line of code, and no more mistakes from forgetting to change things!
+
+You can make functions as flexible as you'd like. Sometimes it's a little tough to figure this out, but adding on in layers is a good strategy. 
+
+Here, I added an extra argument to switch in between the different color palette options for viridis to the original function:
+
+```{r,include=TRUE}
+iris.plot <- function(xpos, ypos, opt){
+  ggplot(iris, aes_string(x = xpos, y = ypos, fill = "Species")) + 
+  geom_point(size = 3, color = "gray30", pch = 21) +
+  xlab(sub("[.]", " ", xpos)) + ylab(sub("[.]", " ", ypos)) +
+  scale_fill_viridis(discrete = TRUE, direction = -1, option = opt) +
+  theme_minimal()
+}
+
+iris.plot("Sepal.Width", "Petal.Length", opt = "A")
+iris.plot("Petal.Width", "Sepal.Length", opt = "C")
+```
+
+#### Check Your Understanding
+
+Take the following code (see markdown) and make a function that will plot individual stations red. Inputs should be the station number and the output should be a plot with that station’s points colored red. 
+
+As a bonus, you could add an option to change the color of the station's point from red to user-defined. 
+
+```{r, include=TRUE}
+data("quakes")
+
+# Turn this part into a function:
+plot(x = quakes$depth, y = quakes$mag, 
+     pch = 21, col = "gray40", bg = "gray80",
+     xlab = "Depth", ylab = "Magnitude")
+points(x = quakes$depth[quakes$stations==41], 
+       y = quakes$mag[quakes$stations==41], pch = 21, bg = "red")
+```
