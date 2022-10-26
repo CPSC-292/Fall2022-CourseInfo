@@ -1,0 +1,30 @@
+---
+title: "Bonus Lecture 3.1 Notebook"
+author: "Lindsay Waldrop"
+date: "10/26/2022"
+output: html_notebook
+---
+```{r setup}
+library(usethis)
+library(gitcreds)
+```
+
+## BL 3.1 Version Control 
+
+Generate and save a personal access token (PAT) using the following code chunks.
+
+Generate the PAT: 
+
+```{r, include=TRUE}
+usethis::create_github_token()
+```
+
+Click "generate token" and WRITE IT DOWN!!!!
+
+Save the PAT in RStudio: 
+
+```{r, include=TRUE}
+gitcreds::gitcreds_set()
+```
+
+Respond to the prompt by entering your PAT. 
