@@ -1,0 +1,56 @@
+---
+title: "Assignment 3.2"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "10/28/2022"
+output: html_notebook
+---
+
+## Assignment 3.2 
+
+```{r, include=TRUE}
+# Loading required libraries
+
+```
+
+### Question 1
+
+*Complete the following steps:*
+
+ a. *Generate 10 random, whole numbers using `sample()` and store them in a vector named `hop`.*
+
+```{r, include=TRUE}
+
+```
+ 
+ b.  *Create a function that will take a single number \verb+x+ and return the results of the following calculation: $2x^2 -3x +12$*
+
+```{r, include=TRUE}
+
+```
+
+ c. *Use your function to calculate the result of each element of `hop` individually. Store the result in a new vector called `hop.up1`.  Note: you must do this to each of the ten elements individually. Hint: create `hop.up1` first as a vector of `NA`'s. *
+ 
+```{r, include=TRUE}
+
+```
+
+ d. *Now use your function to perform a vectorized calculation of the equation on `hop` and store this as `hop.up2`.*
+ 
+```{r, include=TRUE}
+
+```
+
+ e.  *Last, use `all.equal()` to test whether or not `hop.up1` and `hop.up2` are the same. (They should be!)*
+ 
+```{r, include=TRUE}
+
+```
+
+### Question 2
+
+*Make a function that reports the data in `state.x77` (in `data("state")`) for a specific state defined by the user.*
+
+```{r, include=TRUE}
+
+```
