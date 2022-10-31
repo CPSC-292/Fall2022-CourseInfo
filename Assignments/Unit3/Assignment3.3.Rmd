@@ -1,0 +1,66 @@
+---
+title: "Assignment 3.3"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "10/28/2022"
+output: html_notebook
+---
+
+## Assignment 3.3
+
+```{r, include=TRUE}
+# Loading required libraries
+ 
+
+```
+
+### Question 1
+
+*Write a function that returns the correct sound that a user-specified animal makes. Include at
+least four animals. Do not use switch() for this question.*
+
+```{r}
+
+
+```
+
+
+### Question 2
+
+*Write a function that acts like a magic 8 ball. It should take a question as an argument and return an answer (randomly) as output. Include a sample question that calls the function to demonstrate.*
+
+```{r, include=TRUE}
+magic8 <- function(question){
+  print(question)
+  a <-as.character(sample(20,1))
+  answer<-switch(a,
+         "1" = "It is certain.",
+         "2" = "It is decidedly so.",
+         "3" = "Without a doubt.",
+         "4" = "Yes definitely.",
+         "5" = "You may rely on it.",
+         "6" = "As I see it, yes.",
+         "7" = "Most likely.",
+         "8" = "Outlook good.",
+         "9" = "Yes.",
+         "10" = "Signs point to yes.",
+         "11" = "Reply hazy, try again.",
+         "12" = "Ask again later.",
+         "13" = "Better not tell you now.",
+         "14" = "Cannot predict now.",
+         "15" = "Concentrate and ask again.",
+         "16" = "Don't count on it.",
+         "17" = "My reply is no.",
+         "18" = "My sources say no.",
+         "19" = "Outlook not so good.",
+         "20" = "Very doubtful.",
+         "Oops, try again."
+         )
+  print(answer)
+}
+
+magic8("Sample Question?")
+
+```
+
+I got the responses from the Wikipedia page for the Magic 8 Ball: https://en.wikipedia.org/wiki/Magic_8-Ball 
