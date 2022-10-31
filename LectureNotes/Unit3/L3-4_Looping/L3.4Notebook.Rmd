@@ -1,0 +1,179 @@
+---
+title: "Lecture 3.4 Notebook"
+author: "Lindsay Waldrop"
+date: "11/2/2022"
+output: html_notebook
+---
+
+
+## 3.4 Loops
+
+Computers do one thing really, really well: the same task over and over again exactly the same way. However, they are really bad about making judgments and decisions! Flow control helps get around this by giving basic instructions for possible scenarios ahead of time. Two main components of flow control: conditional statements and looping. Last time, we looked at conditionals, and now we'll do loops!
+
+### The repeat loop
+
+The repeat loop will repeat code indefinitely until you stop it. To kill this repeat, press `clt` and `c` at the same time or click the stop icon (a red square in the RStudio chunk and a red stop sign in the R console). 
+
+```{r include=TRUE}
+# Warning! Do not try to knit with this line uncommented! 
+#repeat print("This is the song that never ends.")
+```
+
+You can repeat multiple lines by putting them inside curly braces:
+
+```{r include=TRUE}
+# Warning! Do not try to knit with this line uncommented! 
+# repeat {
+#   print("This is the song that never ends.")
+#   print("Yes it goes on and on, my friends.")
+# }
+```
+
+Now this isn't as helpful without some way of stopping it! `break` will stop a loop. 
+
+```{r include=TRUE}
+repeat {
+  print("This is the song that never ends.")
+  print("Yes it goes on and on, my friends.")
+  break # This only allows the loop to run once.
+}
+```
+
+It would be a little more helpful to set a condition that needs to met for the break: 
+
+```{r include=TRUE}
+x <- 1
+repeat {
+  x <- x + 1
+  print("This is the song that never ends.")
+  print("Yes it goes on and on, my friends.")
+  if(x == 10) break #This runs the break only when x = 10. 
+}
+```
+
+### Check Your Understanding
+
+Write a repeat loop that prints the value of the repetition and stops after 100 repetitions. 
+
+```{r, include=TRUE}
+
+```
+
+### The while loop
+
+While loops look very similar to repeat loops, but they take a condition for stopping as an argument. In this example, we'll use `x` as our counter and set the stop condition as x is less than 11. When x equals 11 (and the condition is no longer TRUE), it will stop. Note that this is essentially the same as the previous `repeat` example!
+
+```{r, include=TRUE}
+x <- 1
+while (x < 11) {
+  print("This will keep printing as long as x is less than 11.")
+  x <- x + 1
+}
+```
+It’s easy to substitute the `x` to use the value of `x` in any calculation.
+
+```{r, include=TRUE}
+x <- 1
+while (x < 11) {
+  print(paste("The value of x is", x, "out of 10."))
+  x <- x + 1
+}
+```
+### The for loop
+
+For loops repeat for a predetermined number of times that you set as an argument: a variable that will cycle through each number in a vector. Each time the loop starts again, the value of the variable will change to the next value in the vector. In this example, the variable x will take on each value in a sequence of 1 to 10. 
+
+```{r, include=TRUE}
+for (x in 1:10){
+  print(paste("The value of x is", x, "out of 10."))
+}
+```
+
+The sequence does not have to be whole numbers. It can be any one of a sequence of numbers. 
+
+```{r, include=TRUE}
+for (x in seq(1, 5, by = 0.1)){
+  print(paste("The value of x is", x, "out of 5."))
+}
+```
+
+It doesn't even have to be a sequence, any vector will do. 
+
+```{r, include=TRUE}
+for (x in runif(10)){
+  print(paste0("The value of x is ", x, "."))
+}
+```
+
+You can also nest for loops (or any loop). Note that the inner loop will run through before the next step of the outer loop: 
+
+```{r, include=TRUE}
+for (x in 1:5){
+  for (y in 6:10) {
+    print(paste0("The value of x is ", x, " and y is ", y, "."))
+  }
+}
+```
+
+An example: you want to do an element-wise calculation on a vector. Here, we’ll add 1.3 to each element of `vec1`. 
+
+```{r, include=TRUE}
+vec1 <- c(2, 1, 4, 5, 7, 2)
+vec2 <- rep(NA, length = length(vec1))
+for (x in 1:length(vec1)){
+  vec2[x] <- vec1[x] + 1.3
+}
+```
+
+Notice that we could do this calculation much easier using a vectorized add, which produces exactly the same results. 
+```{r, include=TRUE}
+vec3 <- vec1 + 1.3
+```
+However, this is the guts of how vectorized calculations work in any computing language! In R, vectorized calculations are pushed down into C (under the hood, so to speak) but still work using a for loop! 
+
+### Implicit looping with `apply()`
+
+The `apply()` function applies a function over the margins of a matrix. It’s an ‘implicit’ loop because it has the same output as an explicit loop without using `for`, `while`, or `repeat`. 
+
+Here, we'll do the same calculation on a sample matrix `my.example`. Let's first set up the matrix: 
+```{r, include=TRUE}
+my.example <- matrix(1:15, nrow = 3)
+my.example
+```
+Now, we'll calculate the mean of each column using a `for` loop:
+```{r, include=TRUE}
+col.means1 <- rep(NA, length = ncol(my.example)) 
+for (x in 1:ncol(my.example)) {
+  col.means1[x] <- mean(my.example[,x])
+}
+col.means1
+```
+
+Next, we'll use `apply()` do to the same thing. The first argument is your matrix, `MARGIN` is either 1 for rows or 2 for columns, and the `FUN` argument is the function you'd like to apply over the matrix (here is `mean()`).
+```{r, include=TRUE}
+col.means2 <- apply(my.example, MARGIN = 2, FUN = mean)
+col.means2
+```
+
+There are also other apply functions: 
+
+ * `lapply()`: applies a function over a list or vector. 
+ * `sapply()`: similar to `lapply()`, but simpler to use. 
+ * `vapply()`: like `sapply()` but you specify the output class, which can make it much faster. 
+ * `eapply()`: applies a function over an environment. 
+ * `mapply()`: applies a function over multiple list or vector arguments. 
+ * `mcapply()`: like `lapply()` but works in parallel. 
+
+### Check Your Understanding
+
+The Fibonacci sequence is a series of numbers in which each number in the series is defined by adding the previous two numbers in the sequence. The first two Fibonacci numbers are 0 and 1, then 1, then 2, then 3, etc. 
+
+Write a loop that will calculate the first 500 Fibonacci numbers. I've gotten you started with the first four numbers! 
+
+```{r, include=TRUE}
+Fib.nums <- rep(NA, length = 500)
+Fib.nums[1:2] <- c(0, 1)
+Fib.nums[3] <- Fib.nums[1] + Fib.nums[2]
+Fib.nums[4] <- Fib.nums[2] + Fib.nums[3]
+
+```
