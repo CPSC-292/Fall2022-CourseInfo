@@ -1,0 +1,29 @@
+---
+title: "Assignment 3.4"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "10/28/2022"
+output: html_notebook
+---
+
+## Assignment 3.4
+
+```{r, include=TRUE}
+# Loading required libraries
+```
+
+### Question 1
+
+*In Assignment 3.2 question 1, you were asked to write a function that would take a number `x` and perform the calculation $2x^2 - 3x + 12$. Use a for loop to perform this calculation using the function you wrote to perform the calculation on 1,000 random numbers generated with `sample()`. Store the results of the function in an object called `hop.up3`.*
+
+```{r, include=TRUE}
+
+```
+
+### Question 2
+
+*In Assignment 2.1, you were asked to create a plot of the Loblolly data set that graphed height versus age, color the points by seed, and add lines that linked up the seeds. In base graphics (not ggplot), write a loop that adds these lines.*
+
+```{r, include=TRUE}
+
+```
