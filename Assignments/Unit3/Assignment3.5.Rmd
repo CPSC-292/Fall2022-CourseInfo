@@ -1,0 +1,86 @@
+---
+title: "Assignment 3.5"
+subtitle: "CPSC 292 Section -- (Instructor last name)"
+author: "Your Name"
+date: "11/4/2022"
+output: html_notebook
+---
+
+
+## 3.5 Flow Control Continued
+
+During this class period, we will work on the following problem which combine flow control elements: functions, conditionals, and loops. I will step you through the first two problems and then you will have a chance to work on the next three alone or together. 
+
+The goal for this class period is to get used to approaching problems. The process of solving large coding problems often boils down to breaking them up into smaller pieces that you can then put together. You should try to get each small problem to work before moving on to the next. We will practice how to break up problems and figure out where to start, what you can do, and how to build code that completes larger, more complex tasks. 
+
+### Question 1
+
+Use a nested loop to fill the empty `my.matrix` defined below. The first column should be numbers 1 through 10, the second column should be 2 times the first column, the third column should be three times the first column, etc. The first row of the matrix should be (1, 2, 3, 4, 5) when it is filled.
+
+```{r, include=TRUE}
+my.matrix <- matrix(rep(NA, 10*5), nrow = 10, ncol = 5)
+
+
+
+```
+
+### Question 2 
+
+Write a function that assigns colors the following numbers: 
+
+ * red = 1
+ * blue = 2
+ * white = 3
+ * yellow = 4
+ * green = 5
+ * others = 6
+
+Use the function in a loop to convert `colors2numbers` below into numbers. Then rewrite the code so that the loop sits inside the function. 
+
+```{r, include=TRUE}
+
+colors2numbers <- c("red", "yellow", "orange", "blue", "blue", "white", "magenta")
+
+
+
+
+```
+
+### Question 3
+
+Use `apply()` to calculate the range of covariance values for each row name in `ability.cov$cov`. 
+```{r, include=TRUE}
+data("ability.cov")
+
+
+
+```
+
+### Question 4
+
+Create a loop that reports from the `beaver1` data frame the temperature of beaver 1 at each time step the beaver was active. (The loop should NOT report any time steps in which the beaver was inactive!)
+
+```{r, include=TRUE}
+data("beavers") # This will load both beaver1 and beaver2 data frames.
+
+
+```
+
+Now make this loop a function so you can either report active temperatures from beaver 1 or beaver 2. 
+
+```{r, include=TRUE}
+
+```
+
+### Question 5
+
+In the `ChickWeight` data set, the weights of 50 chicks fed four different diets were tracked for 21 days. Make a plot in base graphics that plots the mean weights of chicks (within a diet) versus time color coded by the four diets. 
+
+```{r, include=TRUE}
+data("ChickWeight")
+
+
+```
+
+
+
