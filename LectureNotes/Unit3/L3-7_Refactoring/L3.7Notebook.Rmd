@@ -1,0 +1,102 @@
+---
+title: "Lecture 3.7 Notebook"
+author: "Lindsay Waldrop"
+date: "11/11/2022"
+output: html_notebook
+---
+
+
+## 3.7 Refactoring
+ 
+Refactoring is the process by which code is restructured without changing what the code produces. It can do many things, including improve readability and reduce complexity, make cleaner code that is easier to understand, can help fix bugs and other problems, and often makes code more compact and versatile.
+
+Refactoring code is like editing a paper. You’re not really changing what the paper says, but making it clearer and easier to understand!
+
+### Refactoring Example 1: variable names
+
+Code to start: 
+```{r, include=TRUE}
+dothing<-function(x1,x2,x3)
+  # {a1=max(x1,na.rm=TRUE)
+  # a2=max(x2,na.rm=TRUE)
+  # a3=max(x3,na.rm=TRUE)
+  # a4=max(c(a1,a2,a3),na.rm=TRUE)
+  {a1=min(x1,na.rm=TRUE)
+  a2=min(x2,na.rm=TRUE)
+  a3=min(x3,na.rm=TRUE)
+  a4=min(c(a1,a2,a3),na.rm=TRUE)
+  return(a4)}
+```
+
+
+Test chunk to use the function:
+```{r}
+set.seed(1) # Setting a seed for reproducibility
+x1 <- runif(10)
+x2 <- runif(10)
+x3 <- runif(10)
+dothing(x1,x2,x3)
+```
+
+Refactoring goals: 
+
+ 1. Make variable names more meaningful
+ 2. Conform variable names to style guide. 
+
+Refactored code: 
+```{r, include=TRUE}
+
+```
+
+Test the code with the test chunk to make sure the code still works as expected.
+
+### Refactoring Example 2: improving readability
+
+Start with code from above chunk (results of example 1).
+
+Refactoring goals: 
+
+ 1. Improve syntax by adding spaces
+ 2. Conform braces and brackets to style guide. 
+ 
+Refactored code: 
+```{r, include=TRUE}
+
+```
+
+Test the code with the test chunk to make sure the code still works as expected.
+
+### Example 3: commenting to change behavior
+
+Start with code from above chunk (results of example 2).
+
+Goals of refactoring: 
+
+ 1. Add a conditional to handle min/max switch. 
+ 
+Refactored code: 
+```{r, include=TRUE}
+
+```
+
+### Example 4: simplifying code
+
+Start with code from above chunk (results of example 3).
+
+Goals of refactoring: 
+
+ 1. Simplify the code so it is easier to understand.
+ 
+Refactored code: 
+```{r, include=TRUE}
+
+```
+
+### Check Your Understanding
+
+Refactor the code in the lecture notebook so that it conforms to the style guide.
+
+```{r, include=TRUE}
+library(ggplot2)
+ggplot(ToothGrowth,aes(x=factor(dose),y=len))+geom_boxplot(aes(fill=supp),position="dodge2")+scale_fill_manual(values=c("black","red"))+xlab("Dose")+ylab("Tooth Length")+ggtitle("Tooth length versus dose")+theme_minimal()
+```
