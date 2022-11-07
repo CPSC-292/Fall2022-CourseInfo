@@ -1,0 +1,277 @@
+---
+title: "Lecture 3.6 Notebook"
+author: "Lindsay Waldrop"
+date: "11/7/2022"
+output: html_notebook
+---
+
+*Please note that this notebook will not preview due to the coded errors within.*
+
+## 3.6 Debugging
+
+Debugging is the process of removing errors in code that cause it to malfunction. This can include removing error messages or unintended/unexpected behavior or results. Problem solving these issues is a skill that requires practice and a solid understanding of what is happening within your script and function.
+
+**Four General Strategies of Debugging:**
+
+i.  Check for the most common (i.e. "screaming toddler") problems.
+ii. Figure out where the error is.
+iii. Google the error.
+iv. Create a hypothesis and test it.
+
+### I. R's Screaming Toddler Problems
+
+R will give you error messages that don't make sense and don't seem connected to the problem. It's like a toddler: it can tell you things, but those things aren't always useful to solving the problem at hand.
+
+Try these common problems first:
+
+#### 1. It can't find the object/function.
+
+Errors look like:
+
+```{r, include=TRUE}
+jake
+```
+
+```{r, include=TRUE}
+a <- function() 3
+a[1]
+```
+
+```{r, include=TRUE}
+read.csv("data.csv")
+```
+
+```{r, include=TRUE}
+ggplot()
+```
+
+Try these things to fix it:
+
+-   Check spelling
+-   Check capitalization/case
+-   Check the working directory/location of the file
+-   Check to make sure object is in your "local" environment (is the package loaded? is your function including the right inputs?)
+
+#### 2. It's using an unexpected value.
+
+Errors look like:
+
+```{r, include=TRUE}
+a[,1]
+```
+
+```{r, include=TRUE}
+b <- 1:10
+b[,1]
+```
+
+```{r,include=TRUE}
+mean(1,32,25,2)
+```
+
+Try these things to fix it:
+
+-   Is R calling the object you think it is?
+-   Clear your environment and try again. (Restart R)
+-   Look closely at the arguments in a function, are you sure they are in the right order/the correct number?
+-   Is the object the same size as what you're calling?
+
+#### 3. It wants a different data class.
+
+Errors look like:
+
+```{r, include=TRUE}
+a[,1]
+```
+
+```{r, include=TRUE}
+b[,1]
+```
+
+```{r, include=TRUE}
+sum("a")
+```
+
+```{r, include=TRUE}
+C("sum","mean","average")
+```
+
+Try these things to fix it:
+
+-   Is what you are doing to the object appropriate? (specifically indexing)
+-   Is that the data type that a function wants as an input?
+-   Look closely at the arguments in a function, are you sure they are in the right order/the correct number?
+
+### II. Figure Out Where the Error Is
+
+If it's not one of the most common problems, next step is to figure out where the error is and get more information about it.
+
+-   READ THE ERROR MESSAGE. Even if it's not helpful, it will usually help you figure out what line the problem is at.
+-   Use `traceback()`, this can help by identifying the lines in each environment that are throwing errors.
+-   Use the script editor to help point out any syntax errors.
+-   Trace back the error yourself by running a script line-by-line until you hit the error.
+-   If inside a function, manually assign arguments and then step through line-by-line.
+
+### III. Google it
+
+The most helpful thing to do sometimes is to google an error message to see if someone else has already fixed it!
+
+To maximize search results for success, don't include too much specific information about the error such as object names. Google the general parts of the error message: <https://letmegooglethat.com/?q=object+of+type+%27closure%27+is+not+subsettable>
+
+Be sure to read the results carefully, read several entries (not just the first result), and try to understand the problem.
+
+### IV. Create a Hypothesis and Test It
+
+After reading potential answers, form a hypothesis and figure out how to test it. This will depend on the particular problem, but will almost always involve simply trying different things until both of these things happen: 1) the error goes away, and 2) you understand the error.
+
+Try correcting the error with `a[,1]`:
+
+```{r, include=TRUE}
+a <- function() 3
+a[,1]
+```
+
+What is your conclusion about this error?
+
+### Debugging Functions
+
+How do you debug functions? Remember that functions create their own temporary environments, so it's not easy to know what's going on inside them.
+
+In this example, a function will produce several calculations.
+
+```{r}
+myfunction1 <- function(x,a,b,c){
+  t <- x+a
+  t2 <- t/b
+  t3 <- t2 %% c
+  return(t3)
+}
+
+myfunction1(11,4,2,4)
+```
+
+Running each line will produce an error in the global environment, although it works if run as a function. To investigate the inner workings of this function, try the following strategies:
+
+1.  Try to reassign variables into the global environment and run individual lines of the function.
+
+```{r}
+# Assign the values used in the internal workings of the function:
+x <-11
+a <- 4
+b <- 2
+c <- 4
+
+# Now run each line of the function in the global environment:
+#myfunction1 <- function(x,a,b,c){
+  t <- x+a
+  t2 <- t/b
+  t3 <- t2 %% c
+  #return(t3)
+#}
+```
+
+This allows you to see the internal values produced that are otherwise hidden (`t` and `t2`). Don't run a `return()` function or you will get an error.
+
+2.  Try using the debugger in RStudio. In the file bar, select "Debug \> On Error \> Error Inspector" which will kick you into the debugger if R encounters an error at the approximate error location. If you'd like to open the debugging browser, enter `browser()` in the console.
+
+You'll notice that the console prompt changes from `>` to `Browse[1]>`. Now you have extra functionality, including stepping into the internal environment of the function, running to the end of a bit of code, and stopping the debugger. Enter `Q` to quit the debugger.
+
+Or open the function into the debugger:
+
+```{r}
+debug(myfunction1)
+myfunction1(11,4,2,4)
+# To end debug: 
+undebug(myfunction1)
+```
+
+You may need to enter these lines into the console instead of working them in the Markdown Notebook.
+
+Now you can step through each line of the function, watching what is going on in the internal environment with each step. To end the automatic debugging feature, run the line `undebug(functionname)`.
+
+### Adding Conditionals to Help with Errors
+
+It is useful to add some custom error messages to functions, particularly if they will be used by others (i.e. yourself in 3 months). We'll work with our `myfunction1` in this example. 
+
+```{r}
+myfunction1 <- function(x,a,b,c){
+  t <- x+a
+  t2 <- t/b
+  t3 <- t2 %% c
+  return(t3)
+}
+
+myfunction1(11,4,2,4)
+myfunction1("11",4,2,4)
+```
+
+Notice that the operations within the function require some sort of number, so we can add an "early stop" to make sure that the user is providing the appropriate class of data for `x` before encountering a problem later on in the function. 
+
+```{r}
+myfunction1 <- function(x,a,b,c){
+  if(!is.numeric(x)) stop("Please only give numbers!")
+  t <- x+a
+  t2 <- t/b
+  t3 <- t2 %% c
+  return(t3)
+}
+
+myfunction1(11,4,2,4)
+myfunction1("11",4,2,4)
+myfunction1(11L,4,2,4)
+```
+We can extend the statement to include the other arguments by using the OR | (pipe):
+
+```{r}
+myfunction1 <- function(x,a,b,c){
+  if(!is.numeric(x) | !is.numeric(a) | !is.numeric(b) | !is.numeric(c)) stop("Please only give numbers!")
+  t <- x+a
+  t2 <- t/b
+  t3 <- t2 %% c
+  return(t3)
+}
+
+myfunction1("11",4,2,4)
+myfunction1(11,"4",2,4)
+myfunction1(11,4,2,"4")
+```
+
+There are all sorts of checks you can build using conditionals. `stop()` will force an error and halt the execution of your function. If you want to use a warning instead, which will warn your user but continue to execute the function, use `warning()`. 
+
+```{r}
+myfunction1 <- function(x,a,b,c){
+  if(x <10) warning("You should use a number bigger than 10 for x!\n")
+  t <- x+a
+  t2 <- t/b
+  t3 <- t2 %% c
+  return(t3)
+}
+
+myfunction1(9,4,2,4)
+
+```
+
+### Check Your Understanding
+
+Here is a function that doesn't work when you call it. Practice debugging this function so that it works correctly when called.
+
+```{r, include=TRUE}
+my.function <- function(vec1, vec2){
+  answers <- matrix(NA, nrow = 2, ncol = 5)
+  row.names(answers)<- c("vec1","vec2")
+  colnames(answers)<- c("sum", "rangelow","rangehigh","mean","sd")
+  answers[1,1] <- sum(vec1)
+  answers[2,1] <- sum(vec2)
+  answers[1,2:3] <- range(vec1)
+  answers[2,2:3] <- range(vec2)
+  answers[1,4]<- mean(vec1)
+  answers[2,4] <- mean(vec2)
+  answers[1,5] <- sd(vec1)
+  answers[2,5] <- sd(vec2)
+  return(answers)
+}
+
+summary.answers <- my.function(1:10,c("1","10","15"))
+```
+
+Could you add a conditional to prevent this problem and give a "better" error message? 
