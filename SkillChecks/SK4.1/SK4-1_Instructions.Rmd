@@ -1,0 +1,121 @@
+---
+title: "SK4.1 -- Final Lab Report"
+author: "Intro to Exploratory Data Analysis"
+date: "11/28/2022"
+output: html_document
+#bibliography: crabs.bib
+---
+
+## To start...
+
+Skill Check 4.1 will be a final written report based on your work from either project 1 or project 2. Remember that all sections of the report must be present and satisfactory to earn a 'complete' on this Skill Check. Since this will be due at the beginning of the Final Exam period, there can only be one attempt at this Skill Check.
+
+### Due date
+
+Reports are due on __December 9, 2022 by 11:59 pm__. Turn in on Canvas. 
+
+### Required sections of the report
+
+Your report should include the following sections: 
+
+ 1. __Background__: This section is a narrative of the background and motivation behind the visualizatons in Project 1 or 2. It gives the reader the appropriate background to understand the motivation and the motivation itself. The background should build and reference previous works. It should clearly lay out any information needed for the reader to understand the question and the visualization (but not anything else!). It should end with the question that motivates the visualization. 
+ 2. __Analysis__: This section is what you used and what you did. It should be detailed enough so that the reader could _replicate_, or repeat, the analysis if they wished. It should also be a narrative (not a list of materials or a set of numbered steps) with as much details about the analysis as possible. You should include any statistical tests you performed and what software you used. Any data loading, cleaning, or manipulation should be included in this section as code included in the report. Take this space to embed your reasoning and explanation with the code itself! 
+ 3. __Results & Discussion__: You report and interpret results in this hybrid section. You should reference figures (and tables, if present) in your reporting of results. Report the results of any statistical tests you performed (if present). Interpret the results for your readers to tell them what the visualizations show or what unique insights the visualizations provide. You must include at least one visualization from Project 1 or 2, but you can add additional ones if you wish. These additional visualizations should only serve to highlight the main analysis, rather than be extra decorations.
+ 4. __Conclusions__: The main takeaway points of your study. This can be a bullet list if you wish! 
+ 5. __References__: A list of full citations that correspond to the papers you referenced in the text of your report. In-text citations are required to indicate the position in the text where the info in your reference was used!
+ 
+### Required Elements of the Report (RMD file)
+ 
+ * Code: All code should be included and visible in the final report. 
+ * At least one visualization in your Project 1 or 2. 
+ * A full reference to your data set, including the location of the set.
+ * At least two peer-reviewed references.
+ * In-text citations for all references.
+ 
+__Note: all data plots must be generated within the R Markdown file itself. The R Markdown file must knit to a HTML or DOC.__
+
+Each of these elements tests a skill that you've learned with R this semester. I'm excited to see you show off your new skills!
+
+
+### Reference requirement for report
+
+__Include at least two references to peer-reviewed papers__ using an in-text citations at their point of reference in the text and a full reference at the end of the document. Remember that peer-reviewed publications include journal articles, review papers, and academic books, but NOT lecture notes, talks, newspaper articles, blog posts, textbooks, etc. A reference to your data set is not part of the two peer-reviewed references (so you should have a minimum of three references total.)
+
+
+### Handling code in the report
+
+All of the code in your report should be included by including `echo = FALSE, warning = FALSE, message = FALSE` in the header of each code chunk. As an example, this is a code chunk which will not return code: 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+x <- 2 + 2
+plot(cars)
+```
+
+
+
+### Captioning figures
+
+You will need to caption figures in order to refer to them in your text. This is really easy, just add `fig.cap = "your text"` to the header along with echo and warning. Be sure to separate each command in the header with a comma. Below is an example, using the first plot:
+
+```{r, echo=FALSE, message=FALSE, warning = FALSE, fig.cap = "Figure 1. Plot of car stopping distance in m versus speed in m/s."}
+plot(cars, xlab = "Speed (m/s)", ylab = "Stopping distance (m)")
+```
+
+Be sure that your figures are well captioned with a meaningful description of what data are shown and how it is being graphed. Also, be sure that you are labeling your axes, including proper units, as in Fig. 1. 
+
+
+### What to turn in
+
+For the final report, you will turn in a zip file that contains all the necessary elements to reproduce your report using RMarkdown and RStudio. This could include the following:
+ 
+ * An R Project file and folder that contains all work necessary to generate the report. All file should be in standard project format or modified standard project format. 
+ * An RMD file which will knit to either HTML or DOC. 
+ * Data files in a `data/` directory. 
+ * Image files if there are pictures in `doc/` or `document/`.
+ * bib files for references, should be in `doc/` or `document/`.
+ * Other files, if necessary, in appropriate locations.
+ 
+The best way to check to see if you are turning in a complete package is to zip everything up, move it to a different location of your computer, delete the html or doc knitted file, restart R and clear your global environment, then try to knit the file. If it works, you're ready to submit! 
+
+
+### How this report will be assessed
+
+Your final report will go through two levels of assessment: 
+
+ * __A reproducibility check__: I will simply rerun your Rmd file to make sure it generates the same file as what you turned in for the final report. Be sure to clear your content/environment and restart R with a clean slate to make sure that it will reproduce cleanly before turning it in!!
+ * __An assessment for content__: I will assess the report for content. 
+
+
+### Scoring Rubric
+
+Each section will be assessed with the following rubric: 
+
+ __1. Background__: scored as complete or incomplete.
+
++ __complete__: Background provides all of the necessary information for the reader to understand the question and visualization. No extraneous information is presented. Writing is concise, clear, and well organized. Questions and/or motivations driving the visualization(s) are clearly stated. 
++ __incomplete__: Introduction lacks much of the background necessary for the reader to understand the question and visualization. Writing is so unclear or disorganized that comprehension is severely affected or is not understandable. Motivation for visualization is absent.
+
+__2. Analysis__: scored as complete or incomplete.
+
++ __complete__: Clearly written narrative of how the analysis was conducted to the detail level that someone could reproduce and understand the analysis. Includes all code to reproduce data loading and cleaning. 
++ __incomplete__:  Section is sufficiently unclear or written entirely as a list of steps to follow. Enough details are missing that readers would not be able to repeat or understand the analysis. 
+
+__3. Results & Discussion__: scored as complete or incomplete.
+
++ __complete__: Figures are accurate, clear, concise, well-labeled, easy to read, and colorblind friendly. Figures are numbered and captioned and are referenced in the text. Results and interpretations are presented as a narrative organized around the main findings of the analysis. 
++ __incomplete__: Graphs are not accurate and/or inadequate. Figures are not discussed or not captioned or referenced in text. Results are inadequately presented or interpreted.
+
+__4. Conclusions__: scored as complete or incomplete.
+
++ __complete__: Conclusions are clear and concise and takeaway points are well communicated.
++ __incomplete__: Conclusions are absent or inadequate.
+
+__5. References__: failure to meet minimum results in incomplete:
+
++ Fewer than 2 peer-reviewed references
++ No reference to data set
++ No/inappropriate in-text citations
+
+### Other general recommendations
+
+I highly recommend that you produce a draft early enough to get feedback from either me, a classmate, or both. I encourage you to get feedback from your classmates before you submit a final version of the report! 
+
