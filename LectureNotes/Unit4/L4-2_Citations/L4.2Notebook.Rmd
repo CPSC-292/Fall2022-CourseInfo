@@ -1,0 +1,64 @@
+---
+title: "Lecture 4.2 Notebook"
+author: "Lindsay Waldrop"
+date: "11/30/2022"
+output:
+  html_document:
+    df_print: paged
+bibliography: crabs.bib
+---
+
+
+## 4.2 Managing Citations with R Markdown
+
+R Markdown contains a system that allows you to manage references to peer-reviewed works. The management system includes a file with standard organization of information typically contained in a reference (author, title, year, etc.). The system will then take a reference style and format the information appropriately. This is automatic -- no need to reformat references or in-text citations manually!
+
+In order to get started, we'll need to download and save some references in a bib file in BibTex style system. This format is used with LaTeX and is easy to use and save from Google Scholar. Instructions for doing this are below!
+
+### Saving citations for Markdown
+
+Citations are pretty straight forward in Markdown. You'll need a couple of things: 
+
+ * a blank text file that you can open at the top left-hand corner of the file editor, 
+ * Google Scholar profile of your reference, and
+ * the ability to copy and paste! 
+
+Save the blank document as myrefs.bib (it can be empty right now!). 
+
+When you've found an appropriate reference you'd like to cite in Google Scholar, follow these steps to put your reference into this paper:   
+
+ 1. Click the double quote icon at the bottom of the reference.
+ 2. Select "BibTeX" in the list of options for the reference.
+ 3. Highlight the entire block of text and copy it. 
+ 4. Go to myrefs.bib and paste the text at the end of the file. (Make sure you leave a blank line in between references.)
+ 5. Save myrefs.bib.
+ 6. Add the line `bibliography: myrefs.bib` to the header of your RMD file below `output`.
+
+That's it! Now your reference is saved in a library file that Markdown can read later! 
+
+### Citing papers in Markdown
+
+Including in-text citations is also pretty easy. In my crabs.bib example, I have one references named burggren1988biology, which is on the first line of the reference. This is the code for that reference, so if I want to cite it, I simply put: `@burggren1988biology`, which ends up looking like this: [@burggren1988biology].
+
+Here are some different style syntax you might want to use: 
+
+ * In parentheses: [@burggren1988biology],  Code: `[@burggren1988biology]`
+ * Author name outside of parentheses: @burggren1988biology, Code: `@burggren1988biology`
+ * Multiple citations: [@burggren1988biology; @sakai1976crabs; @schubart1998rapid], Code: `@burggren1988biology; @sakai1976crabs; @schubart1998rapid]`
+ * Year only: [-@burggren1988biology], Code: `[-@burggren1988biology]`
+ * words inside of parentheses: [see @burggren1988biology; @sakai1976crabs] or [e.g. @burggren1988biology; @sakai1976crabs], Code: `[see @burggren1988biology; @sakai1976crabs]` or `[e.g. @burggren1988biology; @sakai1976crabs]`
+
+You'll notice that the full citations for all reference you cite in-text automatically appears at the end under `## References` header. You won't need to worry about the format of the in-text citations or references, all of that is done for you by Markdown. But also note: Markdown will only print a reference in your bibliography if you have cited that reference _in the text!_
+
+### Changing Reference Styles
+
+Each journal has its own reference style, or the order and formatting of information in a typical reference. This can be time consuming and frustrating to do by hand! But luckily, R Markdown will format references according to style instantly, all you have to do is give it a style guide file to follow! 
+
+By default, R Markdown's reference management software (Pandoc) will use Chicago author-year style for in-text citations. If you'd like to change this, simply add the following code as a line of the header under bibliography: `csl: stylefile.csl` where stylefile.csl is the name of the new style file you'd like Pandoc to use! 
+
+Style files can be found in a variety of places, but one of the most comprehensive is on Zotero: https://www.zotero.org/styles Search for the specific style file you'd like to use and download it. Note that the csl file must be in the same directory as your RMD file to knit correctly!
+
+Give it a try here: add `csl: jeb.csl` to the header of this file and then knit to see the citations in the style of the _Journal of Experimental Biology_.
+
+
+## References
