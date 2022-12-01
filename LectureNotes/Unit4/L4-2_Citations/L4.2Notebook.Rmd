@@ -6,8 +6,10 @@ output:
   html_document:
     df_print: paged
 bibliography: crabs.bib
+csl: acta-physiologica.csl
 ---
 
+@rinehart2000antitumor
 
 ## 4.2 Managing Citations with R Markdown
 

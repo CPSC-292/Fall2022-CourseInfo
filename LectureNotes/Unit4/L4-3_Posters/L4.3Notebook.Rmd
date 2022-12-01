@@ -1,0 +1,97 @@
+---
+title: "Lecture 4.3 Notebook"
+author: "Lindsay Waldrop"
+date: "12/2/2022"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(ggplot2)
+```
+
+
+## L4.3 - Preparing Visualizations for Posters
+
+We'll use this sample ggplot graphic stored as `p` for saving examples. 
+
+```{r}
+p <- ggplot(mtcars, aes(x = mpg, y = hp, col = cyl)) +    # Defining data and aesthetic mapping
+  geom_point(size = 2) +                                  # Defining geometric object
+  xlab("Miles per gallon") + ylab("Horsepower") +         # Guides: labeling axes
+  xlim(0, 40) + ylim(0, 350) +                            # Scales: setting x and y limits
+  labs(color = "Cylinders")  +                            # Labels legend scale
+  theme_bw()
+
+# Creates directory in which to place example files. 
+dir.create("figures/", showWarnings = FALSE)
+```
+
+
+#### Saving as vector graphics
+
+Vector graphics are saved in way that prevents aliasing of images as an artifact of rescaling. The main vector graphics are PDF and EPS (although most people use PDFs these days).
+
+Note that the base package graphics device is one that opens (usually with a function like `pdf()`) and then must be manually closed with `dev.off()` when you and done adding to the image. Don't forget to close your devices!!
+
+Be sure the extension is .pdf.
+```{r}
+pdf(file = "figures/pdfexample.pdf", width = 6, height = 5)
+p
+dev.off()
+```
+Note that the height and width of the pdf should be set. 
+
+Here, the file extension is eps for an EPS file and is set using a separate function:
+```{r}
+setEPS()
+postscript(file = "epsexample.eps")
+p
+dev.off()
+```
+
+
+#### Saving as raster graphics
+
+Raster graphics saves individual pixel bitmaps based on the size and resolution you specify in the function. The different types are primarily types of compression used to reduce file size. The most popular ones are PNG, TIFF, and JPG/JPEG. 
+
+For PNGs, the units and resolution should be set. PNGs also support transparent backgrounds using the argument `bg="transparent"`.
+```{r}
+png(filename = "pngexample.png", width = 6, height = 5, units = "in", res = 600)
+p
+dev.off()
+```
+
+For TIFFs, you can choose the type of compression (or none at all). 
+```{r}
+tiff(filename = "tiffexample.tif", width = 6, height = 5, units = "in", res = 600, 
+     compression = "none")
+p
+dev.off()
+```
+
+For JPGs, the example is similar to the previous two:
+```{r}
+jpeg(filename = "figures/jpegexample.jpeg", width = 6, height = 5, units = "in", res = 600)
+p
+dev.off()
+```
+
+### Saving figures with ggsave()
+
+ggplot2 library comes with its own function for saving visualizations, called `ggsave()`. It is a good bit easier to use than the others, and will automatically (in most cases) save the image type based on the extension you specify in the file name. 
+
+However, the object saved (in this case `p`) **must** be a ggplot object -- `ggsave()` will not work with other types of plots! 
+
+```{r}
+#PDF example
+ggsave(filename = "figures/ggsave.pdf", plot = p, device = "pdf", 
+       width = 6, height = 5, units = "in")
+
+#PNG example
+ggsave(filename = "figures/ggsave.png", plot = p, device = "png", width = 6, height = 5, units = "in", 
+       dpi=300)
+```
+
+Note: you can also specify `plot=last_plot()` to capture the last ggplot object rendered instead of storing the plot as an object. 
