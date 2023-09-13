@@ -1,0 +1,94 @@
+---
+title: "Skill Check 1"
+date: "Fall 2022"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instructions
+
+This Skill Check is an individual assessment and you should not receive or offer help on it from any other human.
+
+You may use any resource, either online or physical, to complete the work. This includes:
+
+ - Any help forum or website (e.g. StackOverflow) questions that already exist. (You MAY NOT ask a question on a forum and then receive specific help from a person.)
+ - Any notes, code, slides, papers, or previous feedback from the instructor.
+ - Any books, online or physical.
+ - Scholarly works such as papers.
+ 
+You may NOT use:
+
+ - Help from any other student or person. This is an individual assessment.
+ - Asking for help on specific questions. (It is fine to ask for clarification!)
+ - Help from homework websites such as Course Hero or Chegg.
+ 
+You may choose to answer any one part of each question. You must get at least one correct for each question to get full credit. 
+
+### Question 1
+
+Pick one of the following questions to answer in the box below. 
+
+ A. In the command line, how could you take the square root of the number 128? Write the code.
+ 
+ B. In the command line, how could you assign the value 3 to the variable name bloop? Write the code.
+ 
+ C. In the command line, how would you divide the number 3 into 149? Write the code.
+ 
+```{r}
+
+
+```
+
+### Question 2
+
+In the command line, how would you find the help documentation on the function mean()? Write the code here.
+
+```{r}
+
+```
+
+
+## Question 3
+
+Explain the syntax of an R function. Describe each part and what role it plays.
+
+*Your answer here*
+
+### Question 4
+
+Pick two of the following questions and answer in the box below.
+
+ A. In the command line, how would you use the `assign()` function to assign the value 8 to the variable y? Write the code. 
+ 
+ B. In the command line, how could you assign the numbers 8.2 and 4 to a variable x? Write the code.
+ 
+ C. In the command line, how would you create a vector that has length 15 in which all positions have value 1? Write the code.
+ 
+ D. In the command line, how would you create a vector that is a sequence of numbers 4 through 13? Write the code.
+
+```{r}
+
+```
+
+#### Question 5
+
+Pick one of the following questions and answer it in the box below.
+
+ A. Explain the tasks that all computers must accomplish. 
+ 
+ B. Explain the difference between memory and storage.
+ 
+ C. Write out the number 41 in binary. 
+ 
+*Your answer here*
+
+
+
+
+
+
